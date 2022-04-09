@@ -1,0 +1,15 @@
+{% extends 'layout.twig' %}
+{% block content %}
+<section>
+   <div class="container">
+      <h1 class="main">Blog</h1>
+      {% for post in posts %}
+      <div class="blog-post">
+         <p>{{ post.published }}</p>
+         <h3><a href="/blog/{{post.category}}/{{post.slug.current}}"><b>{{post.title}}</b></a></h3>
+         <p>{{post.snippet}} <a href="/blog/{{post.category}}/{{post.slug.current}}"><b>(Read more)</b></a></p>
+      </div>
+      {% endfor %}
+   </div>
+</section>
+{% endblock %}

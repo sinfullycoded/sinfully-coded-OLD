@@ -1,0 +1,55 @@
+/* --- HEX LINKS --- */
+#hexcontainer {
+    position:relative;
+    margin:50px 0 35px 0;
+    padding:20px 0;
+    text-align: center;
+}
+
+.hex1, .hex2 {
+    position:relative;
+    display:inline-block;
+    height:220px;
+    width:190px;
+    overflow:hidden;
+}
+
+.hex1 {
+    -webkit-transform:rotate(60deg);
+    -moz-transform:rotate(60deg);
+    -ms-transform:rotate(60deg);
+    -o-transform:rotate(60deg);
+    transform:rotate(60deg);
+    margin:-20px 10px;
+}
+
+.hex2 {
+    -webkit-transform:rotate(60deg);
+    -moz-transform:rotate(60deg);
+    -ms-transform:rotate(60deg);
+    -o-transform:rotate(60deg);
+    transform:rotate(60deg);
+}
+
+.hexlink {
+    -webkit-transform:rotate(-120deg);
+    -moz-transform:rotate(-120deg);
+    -ms-transform:rotate(-120deg);
+    -o-transform:rotate(-120deg);
+    transform:rotate(-120deg);
+    position:relative;
+    display:inline-block;
+    text-decoration:none;
+    height:220px;
+    width:190px;
+    background-position:center center;
+    background-size:cover;
+}
+
+#hl6 {background-image:url('code.png');background-position: left; filter: grayscale(100%)}
+#hl5 {background: var(--secondary-color)}
+#hl4 {background: transparent}
+#hl2 {background: var(--primary-color)}
+#hl1 {background-image:url('me.jpg');}
+#hl8 {background-color: #ececec; background-image:url('lottiedottie.png'); background-size: contain; filter: grayscale(100%)}
+#hl9 {background: var(--tertiary-color)}

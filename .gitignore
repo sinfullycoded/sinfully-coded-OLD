@@ -1,0 +1,18 @@
+# dotenv environment variable files
+.env
+.env.development
+.env.test.local
+.env.production.local
+.env.production
+.env.local
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+#node stuff
+node_modules/
+logs/
+
+#log & lock files
+*.log
+*.lock

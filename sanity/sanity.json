@@ -1,0 +1,53 @@
+{
+  "root": true,
+  "project": {
+    "name": "sinfullycoded"
+  },
+  "api": {
+    "projectId": "9e74j303",
+    "dataset": "production"
+  },
+  "plugins": [
+    "@sanity/base",
+    "@sanity/default-layout",
+    "@sanity/default-login",
+    "@sanity/desk-tool",
+    "@sanity/code-input",
+    "migration"
+  ],
+  "__experimental_spaces": [
+    {
+      "name": "production",
+      "title": "Prod",
+      "default": true,
+      "api": {
+        "projectId": "9e74j303",
+        "dataset": "production"
+      }
+    },
+    {
+      "name": "development",
+      "title": "Dev",
+      "api": {
+        "projectId": "9e74j303",
+        "dataset": "development"
+      }
+    }
+  ],
+  "env": {
+    "development": {
+      "api": {
+        "dataset": "development"
+      },
+      "plugins": [
+        "@sanity/vision"
+      ]
+    }
+  },
+  "parts": [
+    {
+      "name": "part:@sanity/base/schema",
+      "path": "./schemas/schema"
+    }
+  ]
+}

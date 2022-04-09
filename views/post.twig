@@ -1,0 +1,109 @@
+{% extends 'layout.twig' %}
+{% block content %}
+<section class="top-margin-large">
+   <div class="container medium">
+      <div class="post-grid">
+         <div class="social">
+            <i class="uil uil-share-alt"></i>
+            <!--<i class="uil uil-facebook-f"></i>-->
+            <a target="_blank" href="{{ "%s%s%s%s%s%s%s" | format("https://twitter.com/intent/tweet?text=", post.title, "&url=https://sinfullycoded.com/", post.category, "/", post.slug.current, "&via=mostdefkima3ff&original_referer=https%3A%2F%2Fsinfullycoded.com&hashtags=php,composer") }}">
+            <i class="uil uil-twitter-alt"></i>
+            </a>
+            <span class="share">share:</span>
+         </div>
+         <div class="post-container">
+          <span class="breadcrumb">
+      <ul>
+      {% for segment in path %}
+      {% if segment.name == post.slug.current %}
+       <li>
+            {{ post.title }}
+         </li>
+         {% else %}
+         <li>
+            <a href="/{{ segment.path }}">{{ segment.name}}</a>
+         </li>
+         {% endif %}
+      {% endfor %}
+      </ul>
+   </span>
+            <div class="sp">
+               <span class="cat">{{ post.category }}</span>
+               <h2>{{post.title}}</h2>
+               <p class="meta">
+               <i class="uil uil-calender"></i> Published on {{post.published}} | 
+               <i class="uil uil-heart"></i><span class="links"> 0 </span> | 
+               <i class="uil uil-comment"></i><span class="links"> 0 </span>
+               </p>
+               <div class="structured-markup">{{ body }}</div>
+               <p><em>Last updated: {{post.updated}}</em></p>
+            </div>
+            <div class="comments">
+               <h2 style="margin-bottom:20px"><i class="uil uil-comment"></i> Comments</h2>
+               <div class="comment-holder">
+                  {% if comments %}
+                  {% else %}
+                     nothing yet
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            {% if toc %}
+            <h5>Table of contents</h5>
+            <ul>
+               {% for t in toc %}
+               <li><a href="#{{t.anchor}}">{{t.title}}</a></li>
+               {% endfor %}
+            </ul>
+            <hr>
+            {% endif %}
+            <h5>Tags</h5>
+            {% if post.tags %}
+            {% for tag in post.tags %}
+            <span class="tag">{{ "%s%s" | format("#", tag) }}</span>
+            {% endfor %}
+            {% endif %}
+         </div>
+      </div>
+   </div>
+</section>
+<script>
+window.addEventListener("load", () => {
+
+   let bottomOffset = (window.innerHeight -20) * -1;
+
+   const ops = {
+      rootMargin: `0px 0px ${bottomOffset}px 0px`
+   };
+
+   console.log(ops.rootMargin)
+   console.log(bottomOffset)
+ 
+ // Retrieve all blog post headings with ids (h3 in my case)
+ const headings = Array.from(document.querySelectorAll("h3[id]"));
+
+ // Once a scrolling event is detected, iterate all elements whose visibility changed and highlight their corresponding navigation link
+ const scrollHandler = entries =>
+  entries.forEach(entry => {
+   const heading = entry.target;
+   const headingId = heading.id;
+   const headingLink = document.querySelector(`a[href="#${headingId}"]`);
+   const allHeadingLinks = document.querySelectorAll('.toc a')
+
+   if (entry.isIntersecting) { 
+      allHeadingLinks.forEach(headLink => {
+         headLink.classList.remove("visible")
+      })
+      headingLink.classList.add("visible");
+   }
+  });
+
+ // Creates a new scroll observer
+ const observer = new IntersectionObserver(scrollHandler, ops);
+
+ //adds observer to all heading elements
+ headings.forEach(heading => observer.observe(heading));
+});
+</script>
+{% endblock %}

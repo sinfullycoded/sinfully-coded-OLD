@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{meta.title}}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,noarchive,nofollow" />
+    <link rel="preconnect" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+    <link href="//fonts.googleapis.com/css2?family=Neuton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="/hex.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css">
+    <meta property="og:url" content="{{meta.og_url}}" />
+    <meta property="og:type" content="{{meta.og_type}}" />
+    <meta property="og:title" content="{{meta.og_title}}" />
+    <meta property="og:description" content="{{meta.og_description}}" />
+    <meta property="og:image" content="{{meta.og_image|default("https://cdn.sanity.io/images/9e74j303/development/4e2d5853f760d7ebf398c3cf998633f0c6d2df43-2121x1161.png?h=500&auto=format")}}" />
+</head>
+<body>
+<nav>
+    <div class="container">
+        <div class="logo" style="">
+            <a href="/" title="sinfullycoded.com"><img src="/logo-main.png" alt="sinfully coded logo"/></a>
+        </div>
+        <ul id="nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/blog">Blog</a></li>
+        </ul>
+    </div>
+</nav>
+{% block content %}{% endblock %}
+<footer>
+    <div class="container">
+        <p>
+            © 2022 Sinfully Coded. All rights reserved
+        </p>
+        <p class="icons">
+            <a target="_blank" href="https://twitter.com/Mostdefkima3ff"><i class="lab la-twitter"></i></a>
+            <a target="_blank" href="https://stk.so/sinfullycoded"><i class="lab la-stack-overflow"></i></a>
+        </p>
+    </div>
+</footer>
+</body>
+</html>
