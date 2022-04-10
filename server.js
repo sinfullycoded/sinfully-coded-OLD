@@ -23,19 +23,17 @@ const PORT = process.env.PORT || 3000
 // ================================
 let addlSanityConfig;
 if (!process.env.NODE_ENV) {
-  dotenv.config({ path: '.env.development' })
-  process.env.NODE_ENV = "development";
-  addlSanityConfig = {
-    dataset: process.env.NODE_ENV,
-    useCdn: true // temp because I am making a lot of requests
-  };
-} else {
   dotenv.config({ path: '.env.production' })
   process.env.NODE_ENV = "production";
-  const env = process.env.NODE_ENV;
   addlSanityConfig = {
-    dataset: env,
+    dataset: "production",
     useCdn: true
+  };
+} else {
+  dotenv.config({ path: '.env.development' })
+  addlSanityConfig = {
+    dataset: "development",
+    useCdn: false // CDN not needed in development
   };
 }
 
@@ -66,9 +64,10 @@ app.get('/blog/:category/:slug', async (req, res) => {
 })
 
 // show multiple blog posts
+// TODO: Move logic out of server file
 app.get('/blog', async (req, res) => {
   const postsQuery =
-    `*[_type == 'post']|order(publishedAt desc){ 
+    `*[_type == 'post' && !(_id in path("drafts.**"))]|order(publishedAt desc){ 
       "published": publishedAt, 
       "updated": _updatedAt, 
       title, 
