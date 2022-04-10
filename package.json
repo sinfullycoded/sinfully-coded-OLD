@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=development PORT=4000 nodemon -e js,html,twig --watch ./public server.js",
+    "dev": "NODE_ENV=development nodemon -e js,html,twig --watch ./public server.js",
     "start": "node server.js"
   },
   "author": "",

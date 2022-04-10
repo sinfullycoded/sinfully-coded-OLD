@@ -25,10 +25,10 @@
             <a href="/" title="sinfullycoded.com"><img src="/logo-main.png" alt="sinfully coded logo"/></a>
         </div>
         <ul id="nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/blog">Blog</a></li>
+            <li {% if page == 'index' %} class="active" {% endif %}><a href="/">Home</a></li>
+            <li {% if page == 'about' %} class="active" {% endif %}><a href="/about">About</a></li>
+            <li {% if page == 'projects' %} class="active" {% endif %}><a href="/projects">Projects</a></li>
+            <li {% if page == 'blog' %} class="active" {% endif %}><a href="/blog">Blog</a></li>
         </ul>
     </div>
 </nav>

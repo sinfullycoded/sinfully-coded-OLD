@@ -55,7 +55,7 @@ import getSinglePostBySlug from './controllers/GetSinglePostBySlug.js';
 // ===============================
 
 app.get('/', async (req, res) => {
-  res.render('index', { page_title: 'Sinfully coded - building & breaking things as I go' });
+  res.render('index', { page_title: 'Sinfully coded - building & breaking things as I go', page: 'index' });
 })
 
 // Show a single blog post
@@ -84,7 +84,7 @@ app.get('/blog', async (req, res) => {
     posts[i]["updated"] = formatDate(posts[i].updated);
     posts[i]["published"] = formatDate(posts[i].published);
   }
-  res.render('posts', { posts: posts, page_title: 'Blog - sinfullycoded.com' })
+  res.render('posts', { posts: posts, page_title: 'Blog - sinfullycoded.com', page: 'blog' })
 })
 
 app.get('/projects', async (req, res) => {
@@ -101,11 +101,11 @@ app.get('/projects', async (req, res) => {
 
   const projects = await sanity.fetch(projectsQuery)
 
-  res.render('projects', { projects: projects, page_title: 'Projects - sinfullycoded.com', env: process.env.NODE_ENV });
+  res.render('projects', { projects: projects, page_title: 'Projects - sinfullycoded.com', env: process.env.NODE_ENV, page: 'projects' });
 })
 
 app.get('/about', async (req, res, next) => {
-  res.render('about', { page_title: 'About - sinfullycoded.com' });
+  res.render('about', { page_title: 'About - sinfullycoded.com', page: 'about'});
 })
 
 // Everything else, show a 404 error
