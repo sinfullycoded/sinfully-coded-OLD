@@ -1,4 +1,4 @@
-import { formatDate, customTextComponents } from "../utils.js";
+import { formatDate, customTextComponents, slugify } from "../utils.js";
 import { toHTML } from "@portabletext/to-html";
 
 export default function getSinglePostBySlug(req, res, sanity) {
