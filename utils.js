@@ -46,4 +46,6 @@ const customTextComponents = {
   }
 };
 
-export { highlightCode, formatDate, slugify, customTextComponents }
+const checkPageTheme = (req) => req.cookies.theme === 'dark' ? 'dark' : false;
+
+export { highlightCode, formatDate, slugify, customTextComponents, checkPageTheme }

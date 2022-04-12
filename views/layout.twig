@@ -17,19 +17,29 @@
     <meta property="og:title" content="{{meta.og_title}}" />
     <meta property="og:description" content="{{meta.og_description}}" />
     <meta property="og:image" content="{{meta.og_image|default("https://cdn.sanity.io/images/9e74j303/development/4e2d5853f760d7ebf398c3cf998633f0c6d2df43-2121x1161.png?h=500&auto=format")}}" />
+    {% if page == 'about' %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    {% endif %}
 </head>
+{% if theme %}
+<body {{ "%s%s" | format("data-theme=", theme)}}>
+{% else %}
 <body>
+{% endif %}
 <nav>
     <div class="container">
         <div class="logo" style="">
             <a href="/" title="sinfullycoded.com"><img src="/logo-main.png" alt="sinfully coded logo"/></a>
         </div>
+        <div class="nav-left">
         <ul id="nav">
             <li {% if page == 'index' %} class="active" {% endif %}><a href="/">Home</a></li>
             <li {% if page == 'about' %} class="active" {% endif %}><a href="/about">About</a></li>
             <li {% if page == 'projects' %} class="active" {% endif %}><a href="/projects">Projects</a></li>
             <li {% if page == 'blog' %} class="active" {% endif %}><a href="/blog">Blog</a></li>
         </ul>
+        <input id="theme-switcher" type="checkbox" title="Switch to dark theme"/>
+        </div>
     </div>
 </nav>
 {% block content %}{% endblock %}
@@ -44,5 +54,28 @@
         </p>
     </div>
 </footer>
+<script>
+document.getElementById('theme-switcher').addEventListener('input', ({target}) => {
+  document.body.style.transition = 'background-color 400ms ease-in-out';
+  if (target.checked) {
+    document.body.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark')
+    document.cookie = 'theme=dark';
+    document.getElementById('theme-switcher').setAttribute('title','Switch to light theme')
+  } else {
+    document.body.removeAttribute('data-theme');
+    document.cookie = 'theme=dark; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    localStorage.removeItem('theme')
+    document.getElementById('theme-switcher').setAttribute('title','Switch to dark theme')
+  }
+})
+document.addEventListener("DOMContentLoaded", () => {
+    if(localStorage.getItem('theme') === 'dark') {
+        document.cookie = 'theme=dark'; 
+        document.getElementById('theme-switcher').setAttribute('checked', 'checked')
+        document.getElementById('theme-switcher').setAttribute('title','Switch to light theme')
+    }
+})
+</script>
 </body>
 </html>

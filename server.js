@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { toHTML } from '@portabletext/to-html';
@@ -7,11 +8,12 @@ import sanityClient from '@sanity/client';
 import { highlightCode, formatDate } from './utils.js';
 
 // ===============================
-// General path & view config
+// General path, view config & other middleware
 // ================================
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+app.use(cookieParser());
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'twig');
 app.use(express.static(path.join(__dirname, 'public')))
@@ -49,13 +51,14 @@ const sanity = sanityClient({ ...sanityConfig, ...addlSanityConfig })
 // Imports for router controllers
 // ===============================
 import getSinglePostBySlug from './controllers/GetSinglePostBySlug.js';
+import { checkPageTheme } from './utils.js';
 
 // ===============================
 // Routes
 // ===============================
 
 app.get('/', async (req, res) => {
-  res.render('index', { page_title: 'Sinfully coded - building & breaking things as I go', page: 'index' });
+  res.render('index', { page_title: 'Sinfully coded - building & breaking things as I go', page: 'index', theme: checkPageTheme(req) });
 })
 
 // Show a single blog post
@@ -84,7 +87,7 @@ app.get('/blog', async (req, res) => {
     posts[i]["updated"] = formatDate(posts[i].updated);
     posts[i]["published"] = formatDate(posts[i].published);
   }
-  res.render('posts', { posts: posts, page_title: 'Blog - sinfullycoded.com', page: 'blog' })
+  res.render('posts', { posts: posts, page_title: 'Blog - sinfullycoded.com', page: 'blog', theme: checkPageTheme(req) })
 })
 
 app.get('/projects', async (req, res) => {
@@ -101,11 +104,11 @@ app.get('/projects', async (req, res) => {
 
   const projects = await sanity.fetch(projectsQuery)
 
-  res.render('projects', { projects: projects, page_title: 'Projects - sinfullycoded.com', env: process.env.NODE_ENV, page: 'projects' });
+  res.render('projects', { projects: projects, page_title: 'Projects - sinfullycoded.com', env: process.env.NODE_ENV, page: 'projects', theme: checkPageTheme(req) });
 })
 
 app.get('/about', async (req, res, next) => {
-  res.render('about', { page_title: 'About - sinfullycoded.com', page: 'about'});
+  res.render('about', { page_title: 'About - sinfullycoded.com', page: 'about', theme: checkPageTheme(req)});
 })
 
 // Everything else, show a 404 error

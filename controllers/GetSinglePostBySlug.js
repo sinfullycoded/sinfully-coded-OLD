@@ -1,4 +1,4 @@
-import { formatDate, customTextComponents, slugify } from "../utils.js";
+import { formatDate, customTextComponents, slugify, checkPageTheme } from "../utils.js";
 import { toHTML } from "@portabletext/to-html";
 
 export default function getSinglePostBySlug(req, res, sanity) {
@@ -68,6 +68,6 @@ export default function getSinglePostBySlug(req, res, sanity) {
         };
 
         const content = toHTML(post[0].body, { components: customTextComponents });
-        res.render('post', { post: post[0], body: content, toc: toc, meta: pageMeta, path: breadcrumbs, page: 'blog' })
+        res.render('post', { post: post[0], body: content, toc: toc, meta: pageMeta, path: breadcrumbs, page: 'blog', theme: checkPageTheme(req) })
     })
 }
