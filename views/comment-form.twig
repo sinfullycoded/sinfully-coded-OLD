@@ -1,0 +1,22 @@
+<h5>Add Comment</h5>
+<form method="post" action="/api/add-comment" class="comment-form" id="comment-form" data-post-id="{{post._id}}">
+    <div class="form-item inline block">
+    <textarea title="comment" name="comment" required></textarea>
+    <label class="comments-abs">Comment:</label>
+    </div>
+    <div class="comment-grid">
+    <div>
+    <div class="form-item inline">
+        <input type="text" name="twitter_handle" placeholder="@cattweets" required/>
+        <label>Twitter handle:</label>
+    </div>
+    <div class="form-item inline">
+        <input type="text" name="website_url" placeholder="https://"/>
+        <label>Website url (optional):</label>
+    </div>
+    </div>
+    <div class="form-item">
+        <button type="submit" class="primary">Submit</button>
+    </div>
+    </div>
+</form>

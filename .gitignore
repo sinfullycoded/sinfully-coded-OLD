@@ -16,3 +16,6 @@ logs/
 #log & lock files
 *.log
 *.lock
+
+# Sanity JS (decided to keep it local for now)
+sanity/

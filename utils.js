@@ -48,4 +48,15 @@ const customTextComponents = {
 
 const checkPageTheme = (req) => req.cookies.theme === 'dark' ? 'dark' : false;
 
-export { highlightCode, formatDate, slugify, customTextComponents, checkPageTheme }
+function getEstimatedReadingTime(blocks = []) {
+  let wordsArray = blocks.map(block => {
+      if (block._type !== 'block' || !block.children) {return []}
+      return block.children.map(child => child.text).join('')
+    }).join('').split(' ')
+
+    let wordCount = wordsArray.length;
+    let readingLength = Math.ceil(wordCount/200)
+    return `${readingLength} min read`;
+}
+
+export { highlightCode, formatDate, slugify, customTextComponents, checkPageTheme, getEstimatedReadingTime }

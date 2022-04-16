@@ -3,13 +3,27 @@
 <section>
    <div class="container">
       <h1 class="main">Blog</h1>
+      <div class="blog-grid">
       {% for post in posts %}
-      <div class="blog-post">
-         <p>{{ post.published }}</p>
-         <h3><a href="/blog/{{post.category}}/{{post.slug.current}}"><b>{{post.title}}</b></a></h3>
-         <p>{{post.snippet}} <a href="/blog/{{post.category}}/{{post.slug.current}}"><b>(Read more)</b></a></p>
+      <div>
+         <span class="cat"><a href="/blog/categories/{{post.category}}">{{ post.category }}</a></span>
+         <p>{{ post.published }} • {{ post.readingTime }}</p>
+         {% if post.image %}
+         <p class="mainimage"><a href="/blog/{{post.category}}/{{post.slug}}"><img class="main-image" src="{{ post.image }}?w=350&auto=format" alt="{{post.title}}"></a></p>
+         {% endif %}
+         <h3><a href="/blog/{{post.category}}/{{post.slug}}"><b>{{post.title}}</b></a></h3>
+         <p>{{post.snippet}}</p>
+          {% if post.tags %}
+          <p class="tags">
+            {% for tag in post.tags %}
+            <span class="tag"><a href="/blog/tags/{{tag}}">{{ "%s%s" | format("#", tag) }}</a></span>
+            {% endfor %}
+         </p>
+            {% endif %}
+            <p><a href="/blog/{{post.category}}/{{post.slug}}">READ</a></p>
       </div>
       {% endfor %}
+      </div>
    </div>
 </section>
 {% endblock %}

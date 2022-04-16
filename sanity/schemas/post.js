@@ -19,8 +19,11 @@ export default {
     },
     {
       name: 'snippet',
-      title: 'snippet',
+      title: 'Snippet',
       type: 'text',
+      options: {
+        maxLength: 200,
+      }
     },
     {
       name: 'body',
@@ -60,9 +63,8 @@ export default {
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
-    },
+    }
   ],
-
   preview: {
     select: {
       title: 'title',

@@ -1,20 +1,23 @@
 export default {
     name: 'comment',
-    type: 'object',
+    type: 'document',
     title: 'Comment',
     fields: [
       {
-        name: 'twitter_handle',
-        type: 'string',
-        title: 'Twitter Handle'
-      },
-      {
         name: 'comment',
         type: 'text',
+        title: 'Comment'
+      },
+      {
+        name: 'commenter',
+        title: 'Commenter',
+        type: 'reference',
+        to: {type: 'commenter'},
       },
       {
         name: 'post',
         type: 'reference',
+        title: 'Post',
         to: [
           {type: 'post'}
         ]
@@ -24,12 +27,13 @@ export default {
       select: {
         name: 'twitter_handle',
         comment: 'comment',
-        post: 'post.title'
+        post: 'post.title',
+        media: 'image'
       },
-      prepare({name, comment, post}) {
+      prepare({name, post, media}) {
         return {
-          title: `${name} left a comment on ${post}`,
-          subtitle: comment
+          subtitle: `${name} left a comment on ${post}`,
+          media
         }
       }
     }
