@@ -87,4 +87,11 @@
       </div>
    </div>
 </section>
+<script type="module">
+import { tableOfContentsObserver, addListenersOnCommentForm } from "/assets/js/main.js";
+document.addEventListener("DOMContentLoaded", function () {
+   tableOfContentsObserver()
+    addListenersOnCommentForm()
+})
+</script>
 {% endblock %}
