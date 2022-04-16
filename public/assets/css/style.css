@@ -650,7 +650,7 @@ body[data-theme="dark"] #nav li.active a {
 body[data-theme="dark"] .blog-post,
 body[data-theme="dark"] div.sp,
 body[data-theme="dark"] .comment-holder,
-.comment-form-holder {
+body[data-theme="dark"] .comment-form-holder {
     background: #353342;
 }
 
