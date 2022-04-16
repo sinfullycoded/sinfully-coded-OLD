@@ -37,9 +37,7 @@ export function addComment(req, res) {
 
       // TODO: Fix this logic because it's not sound and it's very finicky!!
       sanity.fetch(query, params).then((commenters) => {
-        if (commenters === []) {
-
-          console.log('creating new commenter')
+        if (commenters.length === 0) {
 
           // Get profile pic from twitter
           fetch(`https://api.twitter.com/2/users/by/username/${req.body.twitter_handle}?user.fields=profile_image_url`, {
@@ -66,9 +64,6 @@ export function addComment(req, res) {
             })
             .catch(err => console.error(err))
         } else {
-
-          console.log('using existing commenter')
-
           // we have an existing commenter, use their id
           createComment(req, res, commenters[0]._id)
         }

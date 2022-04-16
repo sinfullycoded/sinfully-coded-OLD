@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development nodemon --experimental-fetch -e js,html,twig --watch ./public server.js",
-    "start": "node --experimental-fetch server.js"
+    "start": "node --experimental-fetch server.js",
+    "checkpid":"lsof -i tcp:3000"
   },
   "author": "",
   "license": "ISC",
