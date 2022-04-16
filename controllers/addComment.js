@@ -1,5 +1,6 @@
 import { AkismetClient } from 'akismet-api';
 import { sanity } from '../server.js';
+import axios from 'axios';
 
 export function addComment(req, res) {
 
@@ -40,11 +41,14 @@ export function addComment(req, res) {
         if (commenters.length === 0) {
 
           // Get profile pic from twitter
-          fetch(`https://api.twitter.com/2/users/by/username/${req.body.twitter_handle}?user.fields=profile_image_url`, {
+          axios.request({
+            url: `https://api.twitter.com/2/users/by/username/${req.body.twitter_handle}`, 
+            params: {'user.fields': 'profile_image_url'}, 
             method: 'GET',
-            headers: { Authorization: `Bearer ${process.env.TWITTER_TOKEN}` }
+            headers: { 
+              Authorization: `Bearer ${process.env.TWITTER_TOKEN}` 
+            }
           })
-            .then(data => { return data.json() })
             .then(avatar => {
 
               // create commenter
