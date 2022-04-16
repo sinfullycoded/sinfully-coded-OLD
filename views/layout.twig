@@ -61,7 +61,7 @@
 import { themeManager, tableOfContentsObserver, addListenersOnCommentForm } from "/assets/js/main.js";
 document.addEventListener("DOMContentLoaded", function () {
     themeManager()
-    if(window.location.pathname.toString().includes('blog')) {
+    if(window.location.pathname.toString().includes('blog') && window.location.pathname.split('/').length > 1) {
         tableOfContentsObserver()
         addListenersOnCommentForm()
     }
