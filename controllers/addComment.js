@@ -42,16 +42,19 @@ export function addComment(req, res) {
 
           // Get profile pic from twitter
           axios.request({
-            url: `https://api.twitter.com/2/users/by/username/${req.body.twitter_handle}`, 
-            params: {'user.fields': 'profile_image_url'}, 
+            url: `https://api.twitter.com/2/users/by/username/${req.body.twitter_handle}?user.fields=profile_image_url`, 
             method: 'GET',
             headers: { 
               Authorization: `Bearer ${process.env.TWITTER_TOKEN}` 
             }
           })
+          .then(result => result.data)
             .then(avatar => {
 
-              // create commenter
+              if(avatar.error) {
+                return res.status(400).json({status: 400, message: 'user not found'})
+              }
+
               const commenter = {
                 _type: 'commenter',
                 twitter_handle: req.body.twitter_handle,
