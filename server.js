@@ -12,6 +12,7 @@ import compression from 'compression';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+app.use(compression())
 app.use(cookieParser());
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'twig');
@@ -20,7 +21,6 @@ app.set('view engine', 'twig');
   res.setHeader("Content-Security-Policy", "style-src 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
   return next();
 }); */
-app.use(compression())
 app.use(express.static(path.join(__dirname, 'public')))
 
 const PORT = process.env.PORT || 3000
