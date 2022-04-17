@@ -22,6 +22,15 @@ function themeManager() {
     })
 }
 
+function adjustImgSizeOnMobile() {
+    if (document.documentElement.clientWidth > 600) {
+        document.querySelectorAll('img').forEach(img => {
+            img.setAttribute('width', img.getAttribute('dwidth'));
+            img.setAttribute('height', img.getAttribute('dheight'));
+        })
+    }
+}
+
 function tableOfContentsObserver() {
     if (document.documentElement.clientWidth > 1220) {
         let bottomOffset = (window.innerHeight - 30) * -1;
@@ -85,4 +94,4 @@ function addListenersOnCommentForm() {
     document.getElementById("add-comment").addEventListener("click", toggleCommentForm)
 }
 
-export { themeManager, tableOfContentsObserver, addListenersOnCommentForm }
+export { themeManager, tableOfContentsObserver, addListenersOnCommentForm, adjustImgSizeOnMobile }
