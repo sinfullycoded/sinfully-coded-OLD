@@ -10,16 +10,17 @@
     <meta property="og:type" content="{{meta.og_type}}" />
     <meta property="og:title" content="{{meta.og_title}}" />
     <meta property="og:description" content="{{meta.og_description}}" />
-    <meta property="og:image" content="{{meta.og_image|default("https://cdn.sanity.io/images/9e74j303/development/4e2d5853f760d7ebf398c3cf998633f0c6d2df43-2121x1161.png?h=500&auto=format")}}" />
+    <meta property="og:image" content="{{meta.og_image|default("//cdn.sanity.io/images/9e74j303/development/4e2d5853f760d7ebf398c3cf998633f0c6d2df43-2121x1161.webp?h=500&auto=format")}}" />
     <link rel="preconnect" href="//fonts.googleapis.com">
     <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
     <link href="//fonts.googleapis.com/css2?family=Neuton&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="//unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css?v=2" />
-    <link rel="stylesheet" type="text/css" href="/assets/css/hex.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css">
+    <link rel="stylesheet" href="//unicons.iconscout.com/release/v4.0.0/css/line.css" media="none" onload="this.media='all';">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css" media="none" onload="this.media='all';"/>
     {% if page == 'about' %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    <link rel="stylesheet" src="//cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" media="none" onload="this.media='all';">
+    {% endif %}
+    {% if page == 'blog' %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css" media="none" onload="this.media='all';">
     {% endif %}
 </head>
 {% if theme %}
@@ -29,8 +30,8 @@
 {% endif %}
 <nav>
     <div class="container">
-        <div class="logo" style="">
-            <a href="/" title="sinfullycoded.com"><img src="/assets/images/logo-main.png" alt="sinfully coded logo"/></a>
+        <div class="logo">
+            <a href="/" title="sinfullycoded.com"><img src="/assets/images/logo-main.webp" alt="sinfully coded logo" width="150" height="36"/></a>
         </div>
         <div class="nav-left">
         <ul id="nav">
@@ -50,7 +51,7 @@
             © 2022 Sinfully Coded. All rights reserved
         </p>
         <p class="links">
-            <a target="_blank" href="https://m.do.co/c/07590f95adbe"> Hosted on <img src="/assets/images/do-logo.png" alt="Digital Ocean" /></a>
+            <a target="_blank" href="https://m.do.co/c/07590f95adbe"> Hosted on <img src="/assets/images/do-logo.webp" alt="Digital Ocean" width="12" height="12"/></a>
         </p>
     </div>
 </footer>

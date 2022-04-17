@@ -1,7 +1,7 @@
 import { formatDate, checkPageTheme, getEstimatedReadingTime } from "../utils.js";
 import { sanity } from '../server.js';
 
-function getPosts(req, res) {
+async function getPosts(req, res) {
   const postsQuery =
     `*[_type == 'post' && !(_id in path("drafts.**"))]|order(publishedAt desc){ 
   "published": publishedAt, 
@@ -15,8 +15,8 @@ function getPosts(req, res) {
   "image": mainImage.asset->url,
 }[0...9]`;
 
-  sanity.fetch(postsQuery).then((posts) => {
-
+  const posts = await sanity.fetch(postsQuery);
+  
     // Format dates
     for (let i = 0; i < posts.length; i++) {
       posts[i]["updated"] = formatDate(posts[i].updated);
@@ -24,7 +24,6 @@ function getPosts(req, res) {
       posts[i]["readingTime"] = getEstimatedReadingTime(posts[i].body);
     }
     res.render('posts', { posts: posts, page_title: 'Blog (sinfullycoded.com)', page: 'blog', theme: checkPageTheme(req) })
-  })
 }
 
 function getPostsByCat(req, res) {
