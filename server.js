@@ -97,6 +97,10 @@ app.get('/projects', async (req, res) => {
   res.render('projects', { projects: projects, page_title: 'Projects (sinfullycoded.com)', page: 'projects', theme: checkPageTheme(req) });
 })
 
+app.get("/do", (req, res) => {
+  res.status(301).redirect("https://m.do.co/c/07590f95adbe")
+})
+
 // ===============================
 // Blog Routes
 // ===============================

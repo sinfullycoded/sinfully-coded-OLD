@@ -25,6 +25,7 @@
     "eslint": "^8.6.0",
     "prop-types": "^15.7",
     "react-dom": "^17.0",
+    "sanity": "^2.29.3",
     "sanity-plugin-migration": "^0.2.0",
     "styled-components": "^5.2.0"
   }
