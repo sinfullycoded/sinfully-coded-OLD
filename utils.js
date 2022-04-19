@@ -40,8 +40,8 @@ const customTextComponents = {
     html: ({ value }) => value.html
   },
   listItem: ({ children }) => {
-    let regEx = /(\[icon)|(\])/gi;
-    let replacements = { '[icon': '<i class="uil', ']': '"></i>' }
+    let regEx = /(\[icon )|(\])/gi;
+    let replacements = { '[icon ': '<i class="icon-', ']': '"></i>' }
     return `<li>${children.replace(regEx, m => replacements[m])}</li>`
   }
 };
