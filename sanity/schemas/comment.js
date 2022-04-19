@@ -1,7 +1,11 @@
+import React from 'react';
+import { FaComments } from "react-icons/fa";
+
 export default {
     name: 'comment',
     type: 'document',
     title: 'Comment',
+    icon: FaComments,
     fields: [
       {
         name: 'comment',
@@ -25,15 +29,16 @@ export default {
     ],
     preview: {
       select: {
-        name: 'twitter_handle',
+        name: 'commenter.twitter_handle',
         comment: 'comment',
         post: 'post.title',
-        media: 'image'
+        media: 'commenter.avatar_url'
       },
       prepare({name, post, media}) {
         return {
-          subtitle: `${name} left a comment on ${post}`,
-          media
+          title: `New comment from @${name}`,
+          subtitle: `on ${post}`,
+          media: <img src={media} alt={name} />
         }
       }
     }

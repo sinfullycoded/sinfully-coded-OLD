@@ -1,20 +1,43 @@
 {% extends 'layout.twig' %}
 {% block content %}
-<section class="home">
-    <div class="container">
-        <div id="left">
-            <main>
-                <div class="left">
-                    <h1>
-                        Hello there, <br /> 
-                        Welcome to my personal corner of the web.
-                    </h1>
-                </div>
-            </main>
-        </div>
-        <div id="right">
-            <img src="/assets/images/me-drawing-color.webp" alt="Self Portait Drawing" dwidth="700" dheight="626" width="375" height="336">
-        </div>
-    </div>
+<section>
+   <div class="container">
+      <main>
+         <div class="split">
+            <div class="left">
+               <h1>Welcome to my personal corner of the web</h1>
+               <p class="xl"></p>
+               <p>
+                  Hi there! My name is Shakima and I'm a self-taught developer. I've been making things on the internet since 2008. When I'm feeling nostalgic, I peruse the internet archives and laugh in slight embarrassment at all the things I put on the web as a teenager. But hey, if you don't think your old code is awful, have you really grown as a developer?
+               </p>
+               <p class="lc">Let's connect 😊</p>
+               <p>
+                <a href="https://twitter.com/mostdefkima3ff" target="_blank" data-tooltip="Twitter"><i class="icon-twitter"></i></a>
+                <a href="https://github.com/sinfullycoded" target="_blank" data-tooltip="Github"><i class="icon-github"></i></a>
+                <a href="https://www.linkedin.com/in/shakima-mf/" target="_blank" data-tooltip="LinkedIn"><i class="icon-linkedin2"></i></a>
+                <a href="https://stackoverflow.com/users/13211637/shakima-f" target="_blank" data-tooltip="Stack Overflow"><i class="icon-stackoverflow"></i></a>
+                <a href="https://getmakerlog.com/users/Mostdefkima3ff" target="_blank" data-tooltip="Makerlog"><i class="icon-check-circle"></i></a>
+                {# <i class="uil uil-at"></i> #}
+               </p>
+            </div>
+            <div class="right">
+               <img src="/assets/images/about-me.webp" alt="Photo of me" width="420" height="auto">
+            </div>
+         </div>
+         <div class="home-grid">
+            <div>
+                <h2><i class="icon-notes"></i><span> Blog</span></h2>
+                <p>My blog is focused around technical concepts however, I may choose to write an opinion post every once in a while.</p>
+                <a href="blog">View all blog posts ➜</a>
+            </div>
+            <div>
+                <h2><i class="icon-folder-outline"></i><span> Projects</span></h2>
+                <p>Here you'll find all the web apps, websites, tools and/or plugins I've build in recent years based on everything I've learned thus far.</p>
+                <a href="projects">View all projects ➜</a>
+            </div>
+
+         </div>
+      </main>
+   </div>
 </section>
 {% endblock %}

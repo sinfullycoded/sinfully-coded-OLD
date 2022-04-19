@@ -1,0 +1,107 @@
+.home-grid {
+    margin: 10px 0 20px;
+    display: grid;
+    grid-gap: 20px;
+    padding: 20px;
+}
+
+.home-grid>div {
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.home-grid h2 i {
+    background: var(--secondary-color);
+    border-radius: 6px;
+    padding: 8px 6px 7px;
+    display: inline-flex;
+    margin-right: 10px;
+}
+
+.home-grid h2 i::before {
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.home-grid h2 {
+    font-size: 2rem;
+    display: flex;
+    line-height: 1;
+}
+
+.left h1 {
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+.left p a {
+    background: #000;
+    border-radius: 50px;
+    padding: 6px;
+    display: inline-flex;
+    margin-right: 5px;
+}
+
+body[data-theme="dark"] .left p a {
+    background: #fff;
+}
+
+.left i[class^="icon-"] {
+    font-size: .8rem;
+}
+
+.left p a i::before {
+    color: #fff;
+    line-height: 1;
+}
+
+body[data-theme="dark"] .left p a i::before {
+    color: #000;
+}
+
+body[data-theme="dark"] .home-grid>div {
+    border-color: #443d48;
+}
+
+.split {
+    position: relative;
+    padding: 0 30px;
+}
+
+.split:after {
+    background: linear-gradient(to right, var(--primary-color), var(--tertiary-color), var(--bright-orange), var(--secondary-color));
+    height: 3px;
+    content: " ";
+    position: absolute;
+    width: 100%;
+    bottom: 2px;
+    left: 0;
+}
+
+.right {
+    text-align: center;
+}
+.lc {
+    text-transform: uppercase;
+    font-size: .8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+@media only screen and (min-width : 1224px) {
+    .home-grid {
+        padding: 0;
+        margin: 40px 0;
+        display: grid;
+        grid-gap: 40px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    div.left h1 {
+        font-size: 3.5rem;
+        line-height: 1.2;
+        text-align: left;
+    }
+}
+

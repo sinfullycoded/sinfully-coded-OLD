@@ -69,6 +69,7 @@ function addListenersOnCommentForm() {
 
     function addComment(e) {
         e.preventDefault()
+        document.querySelector("#comment-form button").setAttribute("disabled", "disabled");
         let formData = new FormData(e.target)
         formData.append('post_id', e.target.getAttribute("data-post-id"))
         let data = {};
@@ -78,7 +79,25 @@ function addListenersOnCommentForm() {
 
         const response = async () => await fetch('/api/add-comment', { body: JSON.stringify(data), method: 'POST', headers: { 'Content-Type': 'application/json' } })
 
-        response().then(dta => console.log(dta.json()))
+        response()
+        .then(result => result.json())
+        .then(data => {
+            if(data.status === 'success') {
+                document.getElementById("add-comment").setAttribute("disabled", "disabled");
+                const commentFormMessageEl = document.getElementById("comment-msg");
+                const commentForm = document.getElementById("comment-form");
+                commentFormMessageEl.classList.add("success");
+                commentFormMessageEl.innerHTML = '<p>Your comment was successfully submitted. If all looks good, it\'ll be published within 24 hrs.</p>';
+                setTimeout(() => {commentForm.style.display = 'none'}, 500) 
+            }
+        })
+        .catch(() => {
+            const commentFormMessageEl = document.getElementById("comment-msg");
+                const commentForm = document.getElementById("comment-form");
+                commentFormMessageEl.classList.add("error");
+                commentFormMessageEl.innerHTML = '<p>Something went wrong. Maybe try again?</p>';
+                document.querySelector("#comment-form button").removeAttribute("disabled");
+        })
     }
 
     function toggleCommentForm() {

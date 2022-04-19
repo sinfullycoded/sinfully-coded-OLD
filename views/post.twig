@@ -31,7 +31,7 @@
                      <span class="share">
                      <span>Share:</span>
                      <a target="_blank" href="{{ "%s%s%s%s%s%s%s" | format("https://twitter.com/intent/tweet?text=", post.title, "&url=https://sinfullycoded.com/", post.category, "/", post.slug, "&via=mostdefkima3ff&original_referer=https%3A%2F%2Fsinfullycoded.com&hashtags=php,composer") }}">
-                     <i class="uil uil-twitter-alt"></i>
+                     <i class="icon-twitter"></i>
                      </a>
                      </span>
                   </p>
@@ -48,8 +48,19 @@
                <p><em>Last updated: {{post.updated}}</em></p>
             </div>
             <div class="comments">
-               <h2 style="margin-bottom:20px"><span><i class="uil uil-comment"></i> Comments ({{ post.comments|length }})</span><button id="add-comment" class="primary">Add comment</button></h2>
+               <h2>
+                  <span><i class="uil uil-comment"></i> Comments ({{ post.comments|length }})</span>
+                  {% if post.comments|length > 0 %}
+                  <button id="add-comment" class="primary hide">Add comment</button>
+                  {% else %}
+                  <button id="add-comment" class="primary">Add comment</button>
+                  {% endif %}
+               </h2>
+               {% if post.comments|length > 0 %}
                <div class="comment-form-holder">
+               {% else %}
+               <div class="comment-form-holder show">
+               {% endif %}
                {% include 'comment-form.twig' %}
                </div>
                {% if post.comments %}
@@ -91,7 +102,7 @@
 import { tableOfContentsObserver, addListenersOnCommentForm } from "/assets/js/main.js";
 document.addEventListener("DOMContentLoaded", function () {
    tableOfContentsObserver()
-    addListenersOnCommentForm()
+   addListenersOnCommentForm()
 })
 </script>
 {% endblock %}

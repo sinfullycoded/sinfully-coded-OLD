@@ -82,6 +82,7 @@ export function addComment(req, res) {
       // data for creating comment
       const comment = {
         _type: 'comment',
+        _id: 'drafts.',
         comment: req.body.comment,
         post: {
           _type: 'reference',
@@ -96,7 +97,7 @@ export function addComment(req, res) {
       // create comment via sanity sdk
       sanity.create(comment)
         .then((newComment) => res.json({ status: 'success', id: newComment._id, commenter: commenterID }))
-        .catch(err => console.error(err))
+        .catch(err => {throw new Error({status: error, message: err})})
     }
   })
   .catch(err => console.error('Something went wrong:', err.message))

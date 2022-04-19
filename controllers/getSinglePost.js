@@ -21,7 +21,7 @@ export default function getSinglePostBySlug(req, res) {
                 }, 
             "category": lower(categories[0]->title),
             tags,
-            "comments": *[_type == 'comment' && references(^._id)]|order(_createdAt desc){
+            "comments": *[_type == 'comment' && references(^._id) && !(_id in path("drafts.**"))]|order(_createdAt desc){
                 _createdAt,
                 _id,
                 comment,

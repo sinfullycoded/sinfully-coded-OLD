@@ -163,10 +163,6 @@ nav .container {
     align-items: center;
 }
 
-.home {
-    text-align: center;
-}
-
 footer p {
     margin: 0;
 }
@@ -405,24 +401,6 @@ span.tag {
     font-weight: bold;
 }
 
-.split {
-    position: relative;
-}
-
-.split:after {
-    background: linear-gradient(to right, var(--primary-color), var(--tertiary-color), var(--bright-orange), var(--secondary-color));
-    height: 3px;
-    content: " ";
-    position: absolute;
-    width: 100%;
-    bottom: 22px;
-    left: 0;
-}
-
-.right {
-    text-align: center;
-}
-
 .content span.tag {
     font-size: .7rem;
 }
@@ -469,13 +447,32 @@ input {
 }
 
 textarea:focus,
-input[type="text"]:focus {
+input[type="text"]:focus,
+.form-item input[type="url"]:focus {
     outline: 0;
     border-color: var(--primary-color);
 }
 
+input[type="text"]:focus+label,
+.form-item input[type="url"]:focus+label,
+textarea:focus+label {
+    color: var(--secondary-color);
+}
+
 button.primary:hover {
     background: #191718;
+}
+
+.form-item.no-label-float.inline label {
+    display: flex;
+    position: relative;
+    top: 2px;
+}
+
+.comment-form-info {
+    margin-top: 20px;
+    font-size: .9rem;
+    display: block;
 }
 
 button {
@@ -527,7 +524,8 @@ button.primary {
     letter-spacing: .5px;
 }
 
-.form-item input[type="text"] {
+.form-item input[type="text"],
+.form-item input[type="url"] {
     margin: 22px 0 0 0;
     border-color: #000;
     border-style: solid;
@@ -558,30 +556,31 @@ button.primary {
     appearance: none;
     font-size: 1.5rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: unicons-line;
+    font-family: 'icomoon' !important;
     font-style: normal;
-    font-weight: 400;
-    display: inline-block;
-    text-decoration: inherit;
+    font-weight: normal;
     font-variant: normal;
     text-transform: none;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     cursor: pointer;
 }
 
 #theme-switcher:after {
-    content: '\e9cc';
+    content: '\e9d4';
     color: #ef9e03;
     text-shadow: 0 0 20px #ef9e03;
 }
 
 #theme-switcher:checked::after {
-    content: '\ea8b';
+    content: '\e901';
     color: antiquewhite;
     text-shadow: 0 0 20px antiquewhite;
+}
+
+.comments h2 {
+    margin-bottom: 20px
 }
 
 .nav-left {
@@ -637,6 +636,96 @@ button.primary {
 .blog-grid>div>p>a {
     color: var(--secondary-color);
     font-weight: bold;
+}
+
+[data-tooltip] {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+[data-tooltip]::after,
+[data-tooltip]::before {
+    -webkit-transition: opacity 0.5s ease;
+    -moz-transition: opacity 0.5s ease;
+    -ms-transition: opacity 0.5s ease;
+    -o-transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
+    opacity: 0;
+    position: absolute;
+}
+
+[data-tooltip]:before {
+    content: "";
+    border-top: 4px solid #000000e3;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    left: 33%;
+    bottom: 110%;
+}
+
+[data-tooltip]:after {
+    content: attr(data-tooltip);
+    bottom: 125%;
+    left: -50%;
+    background: #000000e3;
+    padding: 0 6px;
+    color: #fff;
+    font-size: .8rem;
+    letter-spacing: .5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+[data-tooltip]:hover:after,
+[data-tooltip]:hover:before {
+    opacity: 1;
+}
+
+blockquote.alert {
+    margin: 0 0 40px;
+    padding: 10px;
+    border-radius: 6px;
+    display: none;
+}
+
+blockquote.alert p {
+    margin: 0;
+}
+
+blockquote.alert.success {
+    background: #c4e0d5;
+    display: block;
+}
+
+blockquote.alert.success p::before {
+    content: "✔";
+    margin-right: 5px;
+    color: #2a976c;
+}
+
+blockquote.alert.error {
+    background: #e7bbd3;
+    display: block;
+}
+
+blockquote.alert.error p::before {
+    content: "❗";
+    margin-right: 5px;
+    color: #be3b82;
+}
+
+button#add-comment.hide {
+    display: none;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 /* 
@@ -714,7 +803,7 @@ body[data-theme="dark"] hr {
 }
 
 body[data-theme="dark"] footer>div.container {
-    border-color: #302934;
+    border-color: #443d48;
 }
 
 body[data-theme="dark"] .about-grid h2 {
@@ -819,10 +908,6 @@ ul.comment-items li>span.avatar img {
     margin-right: 20px;
 }
 
-.split {
-    padding: 20px;
-}
-
 i[class^="devicon"] {
     margin-bottom: 20px;
     display: inline-block;
@@ -843,31 +928,8 @@ i[class^="devicon"] {
     letter-spacing: 1.2px;
 }
 
-
 i[class^="devicon"] {
     font-size: 2.5rem;
-}
-
-#left .left {
-    font-size: 1.3rem;
-    padding: 20px;
-}
-
-ul.social-links {
-    margin: 20px 0;
-}
-
-.projects-list {
-    display: grid;
-    grid-template-columns: auto;
-    grid-gap: 20px;
-    justify-content: center;
-    padding: 20px;
-}
-
-.projects-list>div {
-    display: block;
-    margin: 0;
 }
 
 .note {
@@ -885,7 +947,7 @@ section.home>div.container {
  */
 @media only screen and (min-width : 1224px) {
 
-    section.home>div.container > div {
+    section.home>div.container>div {
         width: 50%;
     }
 
@@ -895,16 +957,6 @@ section.home>div.container {
 
     .note {
         margin-bottom: 40px;
-        padding: 0;
-    }
-
-    .projects-list {
-        grid-template-columns: repeat(3, 28%);
-        padding: 0;
-        grid-gap: 40px;
-    }
-
-    #left .left {
         padding: 0;
     }
 
@@ -1133,6 +1185,7 @@ section.home>div.container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         margin-top: 60px;
+        align-items: end;
     }
 
     .right img {
@@ -1146,19 +1199,9 @@ section.home>div.container {
         justify-content: space-between;
     }
 
-    section.home {
-        min-height: calc(100vh - 199px);
-        text-align: left;
-    }
-
     section {
-        min-height: calc(100vh - 207px);
+        min-height: calc(100vh - 215px);
         text-align: left;
-    }
-
-    .left h1 {
-        font-size: 3.5rem;
-        line-height: 1.2;
     }
 
     div.container {

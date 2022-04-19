@@ -8,6 +8,7 @@
     "dataset": "production"
   },
   "plugins": [
+    "@sanity/dashboard",
     "@sanity/base",
     "@sanity/default-layout",
     "@sanity/default-login",
@@ -50,8 +51,20 @@
       "path": "./schemas/schema"
     },
     {
+      "implements": "part:@sanity/base/theme/variables/override-style",
+      "path": "dist/static/css/sinfullycoded.css"
+    },
+    {
       "name": "part:@sanity/desk-tool/structure",
       "path": "./structure.js"
+    },
+    {
+      "implements": "part:@sanity/dashboard/config",
+      "path": "./dashboardConfig.js"
+    },
+    {
+      "implements": "part:@sanity/base/brand-logo",
+      "path": "components/BrandLogo.js"
     }
   ]
 }

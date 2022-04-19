@@ -14,13 +14,16 @@
     <link rel="preconnect" href="//fonts.googleapis.com">
     <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
     <link href="//fonts.googleapis.com/css2?family=Neuton&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="//unicons.iconscout.com/release/v4.0.0/css/line.css" media="none" onload="this.media='all';">
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css"/>
-    {% if page == 'about' %}
-    <link rel="stylesheet" src="//cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" media="none" onload="this.media='all';">
+    <link rel="stylesheet" type="text/css" href="/assets/css/icomoon.css"/>
+    {% if page == 'index' %}
+    <link rel="stylesheet" type="text/css" href="/assets/css/index.css"/>
+    {% endif %}
+    {% if page == 'projects' %}
+    <link rel="stylesheet" type="text/css" href="/assets/css/projects.css"/>
     {% endif %}
     {% if page == 'blog' %}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css" media="none" onload="this.media='all';">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css" media="none" onload="this.media='all';" nonce="vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q=">      
     {% endif %}
 </head>
 {% if theme %}
@@ -36,9 +39,9 @@
         <div class="nav-left">
         <ul id="nav">
             <li {% if page == 'index' %} class="active" {% endif %}><a href="/">Home</a></li>
-            <li {% if page == 'about' %} class="active" {% endif %}><a href="/about">About</a></li>
-            <li {% if page == 'projects' %} class="active" {% endif %}><a href="/projects">Projects</a></li>
+            {#<li {% if page == 'about' %} class="active" {% endif %}><a href="/about">About</a></li>#}
             <li {% if page == 'blog' %} class="active" {% endif %}><a href="/blog">Blog</a></li>
+            <li {% if page == 'projects' %} class="active" {% endif %}><a href="/projects">Projects</a></li>
         </ul>
         <input id="theme-switcher" type="checkbox" title="Switch to dark theme"/>
         </div>
@@ -55,9 +58,6 @@
         </p>
     </div>
 </footer>
-{% if page == 'about' %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
-    {% endif %}
-<script type="module">import {themeManager, adjustImgSizeOnMobile} from "/assets/js/main.js";document.addEventListener("DOMContentLoaded", function () {themeManager(); adjustImgSizeOnMobile()})</script>
+<script type="module" nonce="vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q=">import {themeManager} from "/assets/js/main.js";document.addEventListener("DOMContentLoaded", function () {themeManager()})</script>
 </body>
 </html>
