@@ -17,8 +17,9 @@ app.use(cookieParser());
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'twig');
 app.use(function(req, res, next) {
-  res.setHeader("Content-Security-Policy", "script-src 'self' cdn.sanity.io 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
-  res.setHeader("Content-Security-Policy", "style-src-elem 'self' cdn.sanity.io fonts.googleapis.com fonts.gstatic.com 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
+  res.setHeader("Content-Security-Policy", "default-src 'self' 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
+  res.setHeader("Content-Security-Policy", "script-src 'self' 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
+  res.setHeader("Content-Security-Policy", "style-src-elem 'self' fonts.googleapis.com fonts.gstatic.com 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
   return next();
 });
 app.use(express.static(path.join(__dirname, 'public')))
