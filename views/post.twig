@@ -50,7 +50,7 @@
             <div class="comments">
                <h2>
                   <span><i class="uil uil-comment"></i> Comments ({{ post.comments|length }})</span>
-                  {% if post.comments|length > 0 %}
+                  {% if post.comments|length == 0 %}
                   <button id="add-comment" class="primary hide">Add comment</button>
                   {% else %}
                   <button id="add-comment" class="primary">Add comment</button>

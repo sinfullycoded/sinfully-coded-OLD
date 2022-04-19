@@ -81,7 +81,7 @@ export default function getSinglePostBySlug(req, res) {
         };
 
         for (let i = 0; i < post[0].comments.length; i++) {
-            post[0].comments[i]["_createdAt"] = formatDate(post[0].comments[i].updated);
+            post[0].comments[i]["_createdAt"] = formatDate(post[0].comments[i]._createdAt);
           }
 
         const content = toHTML(post[0].body, { components: customTextComponents });
