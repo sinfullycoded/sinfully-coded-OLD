@@ -23,7 +23,7 @@ async function getPosts(req, res) {
       posts[i]["published"] = formatDate(posts[i].published);
       posts[i]["readingTime"] = getEstimatedReadingTime(posts[i].body);
     }
-    res.render('posts', { posts: posts, page_title: 'Blog (sinfullycoded.com)', page: 'blog', theme: checkPageTheme(req) })
+    res.render('posts', { posts: posts, page_title: 'Blog (sinfullycoded.com)', page: 'blog', theme: checkPageTheme(req), nonce: res.locals.nonce })
 }
 
 function getPostsByCat(req, res) {
@@ -56,7 +56,7 @@ function getPostsByCat(req, res) {
       posts[i]["readingTime"] = getEstimatedReadingTime(posts[i].body);
     }
 
-    res.render('postsByCat', { posts: posts, page_title: `${posts.category} (sinfullycoded.com blog)`, page: 'blog', theme: checkPageTheme(req) })
+    res.render('postsByCat', { posts: posts, page_title: `${posts.category} (sinfullycoded.com blog)`, page: 'blog', theme: checkPageTheme(req), nonce: res.locals.nonce })
 
   })
 
@@ -86,7 +86,7 @@ function getPostsByTag(req, res) {
       posts[i]["readingTime"] = getEstimatedReadingTime(posts[i].body);
     }
 
-    res.render('postsByTag', { posts: posts, page_title: `Posts tagged with: ${req.params.tag} (sinfullycoded.com blog)`, page: 'blog', theme: checkPageTheme(req) })
+    res.render('postsByTag', { posts: posts, page_title: `Posts tagged with: ${req.params.tag} (sinfullycoded.com blog)`, page: 'blog', theme: checkPageTheme(req), nonce: res.locals.nonce })
 
   })
 }

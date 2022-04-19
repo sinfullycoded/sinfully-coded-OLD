@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/projects.css"/>
     {% endif %}
     {% if page == 'blog' %}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css" media="none" onload="this.media='all';" nonce="vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q=">      
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css" media="none" onload="this.media='all';" nonce="{{ nonce }}">      
     {% endif %}
 </head>
 {% if theme %}
@@ -58,6 +58,6 @@
         </p>
     </div>
 </footer>
-<script type="module" nonce="vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q=">import {themeManager} from "/assets/js/main.js";document.addEventListener("DOMContentLoaded", function () {themeManager()})</script>
+<script type="module">import {themeManager} from "/assets/js/main.js";document.addEventListener("DOMContentLoaded", function () {themeManager()})</script>
 </body>
 </html>

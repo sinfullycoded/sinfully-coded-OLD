@@ -728,6 +728,10 @@ button:disabled {
     opacity: 0.5;
 }
 
+.left {
+    padding-bottom: 10px;
+}
+
 /* 
  * Dark mode 
  */
@@ -758,7 +762,8 @@ body[data-theme="dark"] .comment-form-holder {
 }
 
 body[data-theme="dark"] .comment-form textarea,
-body[data-theme="dark"] input[type="text"] {
+body[data-theme="dark"] input[type="text"],
+body[data-theme="dark"] input[type="url"] {
     background: #131722;
     border: none;
     color: #fff;

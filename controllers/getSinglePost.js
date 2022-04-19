@@ -85,7 +85,8 @@ export default function getSinglePostBySlug(req, res) {
           }
 
         const content = toHTML(post[0].body, { components: customTextComponents });
+        const nonce = res.locals.nonce;
 
-        res.render('post', { post: post[0], body: content, toc: toc, meta: pageMeta, path: breadcrumbs, page: 'blog', theme: checkPageTheme(req) })
+        res.render('post', { post: post[0], body: content, toc: toc, meta: pageMeta, path: breadcrumbs, page: 'blog', theme: checkPageTheme(req), nonce: nonce })
     })
 }

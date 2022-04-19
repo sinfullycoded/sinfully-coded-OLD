@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import sanityClient from '@sanity/client';
 import compression from 'compression';
+import crypto from 'crypto';
 
 // ===============================
 // General path, view config & other middleware
@@ -16,13 +17,15 @@ app.use(compression());
 app.use(cookieParser());
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'twig');
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(function(req, res, next) {
-  res.setHeader("Content-Security-Policy", "default-src 'self' 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
-  res.setHeader("Content-Security-Policy", "script-src 'self' 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
-  res.setHeader("Content-Security-Policy", "style-src-elem 'self' fonts.googleapis.com fonts.gstatic.com 'nonce-vxz79MjdPVQKQL3+bAFaTHbjfaaPEponU99FOuzPB7Q='");
+  let nonce = crypto.randomBytes(16).toString('base64');
+  res.locals.nonce = nonce;
+  res.setHeader("Content-Security-Policy", `default-src 'self' 'nonce-${nonce}'`);
+  res.setHeader("Content-Security-Policy", `script-src 'self' 'nonce-${nonce}'`);
+  res.setHeader("Content-Security-Policy", `style-src-elem 'self' fonts.googleapis.com fonts.gstatic.com 'nonce-${nonce}'`);
   return next();
 });
-app.use(express.static(path.join(__dirname, 'public')))
 
 const PORT = process.env.PORT || 3000
 
@@ -72,11 +75,11 @@ import { checkPageTheme } from './utils.js';
 // ===============================
 
 app.get('/', async (req, res) => {
-  res.render('index', { page_title: 'Sinfully Coded - A personal site & dev blog', page: 'index', theme: checkPageTheme(req) });
+  res.render('index', { page_title: 'Sinfully Coded - A personal site & dev blog', page: 'index', theme: checkPageTheme(req), nonce: res.locals.nonce });
 })
 
 app.get('/about', async (req, res) => {
-  res.render('about', { page_title: 'About (sinfullycoded.com)', page: 'about', theme: checkPageTheme(req)});
+  res.render('about', { page_title: 'About (sinfullycoded.com)', page: 'about', theme: checkPageTheme(req), nonce: res.locals.nonce});
 })
 
 // TODO: Move main function logic out of server file and import
@@ -95,7 +98,7 @@ app.get('/projects', async (req, res) => {
 
   const projects = await sanity.fetch(projectsQuery)
 
-  res.render('projects', { projects: projects, page_title: 'Projects (sinfullycoded.com)', page: 'projects', theme: checkPageTheme(req) });
+  res.render('projects', { projects: projects, page_title: 'Projects (sinfullycoded.com)', page: 'projects', theme: checkPageTheme(req), nonce: res.locals.nonce });
 })
 
 app.get("/do", (req, res) => {
