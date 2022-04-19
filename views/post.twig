@@ -73,10 +73,9 @@
                         {% endif %}
                         <div>
                         <span class="comment-head">
-                           <a href="{{ "%s%s" |format("https://twitter.com/", comment.twitter_handle) }}" data-commenter-id={{comment.commenter_id}}>{{"%s%s" |format("@", comment.twitter_handle)}}</a> said
+                           <a href="{{ "%s%s" |format("https://twitter.com/", comment.twitter_handle) }}" data-commenter-id={{comment.commenter_id}}>{{"%s%s" |format("@", comment.twitter_handle)}}</a> • {{comment._createdAt}}
                         </span>
                         <p>{{comment.comment}}</p>
-                        <p class="meta">{{comment._createdAt}}</p>
                         </div>
                      </li>
                   {% endfor %}

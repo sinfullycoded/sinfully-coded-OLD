@@ -74,11 +74,15 @@ export default function getSinglePostBySlug(req, res) {
         const pageMeta = {
             title: `${post[0].title} (sinfullycoded.com)`,
             og_title: post[0].title,
-            og_url: `https://sinfullycoded.com/blog/${post[0].category}/${post[0].slug.current}`,
+            og_url: `https://sinfullycoded.com/blog/${post[0].category}/${post[0].slug}`,
             og_description: post[0].snippet,
             og_type: 'article',
             og_image: ''
         };
+
+        for (let i = 0; i < post[0].comments.length; i++) {
+            post[0].comments[i]["_createdAt"] = formatDate(post[0].comments[i].updated);
+          }
 
         const content = toHTML(post[0].body, { components: customTextComponents });
 

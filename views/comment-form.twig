@@ -3,17 +3,17 @@
 <form class="comment-form" id="comment-form" data-post-id="{{post._id}}">
     <div class="form-item inline block">
         <textarea title="comment" name="comment" required></textarea>
-        <label class="comments-abs">Comment:</label>
+        <label class="comments-abs">Comment <strong class="required">*</strong></label>
     </div>
     <div class="comment-grid">
         <div>
         <div class="form-item inline">
-            <input type="text" name="twitter_handle" placeholder="mostdefkima3ff" required/>
-            <label data-tooltip='Without "@" sign'>Twitter handle:</label>
+            <input type="text" name="twitter_handle" placeholder="mostdefkima3ff" pattern="^[A-Za-z0-9_]{1,15}$" maxlength="15" title="No @ sign; 15 chars max" required/>
+            <label>Twitter handle <strong class="required">*</strong></label>
         </div>
         <div class="form-item inline">
             <input type="url" name="website_url" placeholder="https://"/>
-            <label>Website url (optional):</label>
+            <label>Website url</label>
         </div>
         {#<div class="form-item no-label-float inline">
             <label><input type="checkbox" name="saveinfo"/> Save my info for the next time I comment</label>
@@ -23,5 +23,5 @@
             <button type="submit" class="primary">Submit</button>
         </div>
     </div>
-    <em class="comment-form-info">Comments will be held for moderation.</em>
+    <em class="comment-form-info">All required fields are marked with an asterisk. Comments will be held for moderation.</em>
 </form>
