@@ -87,8 +87,8 @@ function addListenersOnCommentForm() {
                 const commentFormMessageEl = document.getElementById("comment-msg");
                 const commentForm = document.getElementById("comment-form");
                 commentFormMessageEl.classList.add("success");
+                commentForm.style.display = 'none';
                 commentFormMessageEl.innerHTML = '<p>Your comment was successfully submitted. If all looks good, it\'ll be published within 24 hrs.</p>';
-                setTimeout(() => {commentForm.style.display = 'none'}, 500) 
             }
         })
         .catch(() => {

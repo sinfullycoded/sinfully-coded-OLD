@@ -1,6 +1,6 @@
 <h5>Add Comment</h5>
 <blockquote class="alert" id="comment-msg"></blockquote>
-<form class="comment-form" id="comment-form" data-post-id="{{post._id}}" autocomplete="off">
+<form class="comment-form" id="comment-form" data-post-id="{{post._id}}">
     <div class="form-item inline block">
         <textarea title="comment" name="comment" required></textarea>
         <label class="comments-abs">Comment:</label>
@@ -8,8 +8,8 @@
     <div class="comment-grid">
         <div>
         <div class="form-item inline">
-            <input type="text" name="twitter_handle" placeholder="@mostdefkima3ff" required/>
-            <label>Twitter handle:</label>
+            <input type="text" name="twitter_handle" placeholder="mostdefkima3ff" required/>
+            <label data-tooltip='Without "@" sign'>Twitter handle:</label>
         </div>
         <div class="form-item inline">
             <input type="url" name="website_url" placeholder="https://"/>
