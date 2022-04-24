@@ -120,8 +120,9 @@ export default function getSinglePostBySlug(req, res) {
                 pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post._id}.png`;
                 return;
             }
-            pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post._id}.png`;
         });
+
+        pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post._id}.png`;
 
         for (let i = 0; i < post.comments.length; i++) {
             post.comments[i]["_createdAt"] = formatDate(post.comments[i]._createdAt);
