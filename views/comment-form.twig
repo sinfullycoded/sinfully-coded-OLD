@@ -1,27 +1,27 @@
-<h5>Add Comment</h5>
 <blockquote class="alert" id="comment-msg"></blockquote>
 <form class="comment-form" id="comment-form" data-post-id="{{post._id}}">
-    <div class="form-item inline block">
-        <textarea title="comment" name="comment" required></textarea>
-        <label class="comments-abs">Comment <strong class="required">*</strong></label>
-    </div>
-    <div class="comment-grid">
-        <div>
-        <div class="form-item inline">
-            <input type="text" name="twitter_handle" placeholder="mostdefkima3ff" pattern="^[A-Za-z0-9_]{1,15}$" maxlength="15" title="No @ sign; 15 chars max" required/>
-            <label>Twitter handle <strong class="required">*</strong></label>
-        </div>
-        <div class="form-item inline">
-            <input type="url" name="website_url" placeholder="https://"/>
-            <label>Website url</label>
-        </div>
-        {#<div class="form-item no-label-float inline">
-            <label><input type="checkbox" name="saveinfo"/> Save my info for the next time I comment</label>
-        </div>#}
-        </div>
-        <div class="form-item">
-            <button type="submit" class="primary">Submit</button>
-        </div>
-    </div>
-    <em class="comment-form-info">All required fields are marked with an asterisk. Comments will be held for moderation.</em>
+	<span class="avatar"><img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?f=y&d=mp" alt="mostdefkima3ff"></span>
+	<div>
+		<div class="form-item inline block cont">
+			<textarea title="comment" name="comment" placeholder="your thoughts..." required></textarea>
+			<div class="comment-grid">
+				<div>
+					<div class="form-item inline">
+						<input type="text" name="twitter_handle" placeholder="mostdefkima3ff" pattern="^[A-Za-z0-9_]{1,15}$" maxlength="15" title="No @ sign; 15 chars max" required/>
+						<label>Twitter handle
+							<strong class="required">*</strong>
+						</label>
+					</div>
+					<div class="form-item inline">
+						<input type="url" name="website_url" placeholder="https://"/>
+						<label>Website url</label>
+					</div>
+				</div>
+				<div class="form-item">
+					<button type="submit" class="primary">Add comment</button>
+				</div>
+			</div>
+		</div>
+        <em class="comment-form-info">Comments will be held for moderation. This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a></em>
+	</div>
 </form>

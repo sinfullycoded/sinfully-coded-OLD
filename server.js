@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import sanityClient from '@sanity/client';
 import compression from 'compression';
 import crypto from 'crypto';
+import mysql from 'mysql2';
+import fs from 'fs';
 
 // ===============================
 // General path, view config & other middleware
@@ -21,16 +23,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(function(req, res, next) {
   let nonce = crypto.randomBytes(16).toString('base64');
   res.locals.nonce = nonce;
+  if (process.env.NODE_ENV === "production") {
   res.setHeader("Content-Security-Policy", `default-src 'self' 'nonce-${nonce}'`);
   res.setHeader("Content-Security-Policy", `script-src 'self' 'nonce-${nonce}'`);
   res.setHeader("Content-Security-Policy", `style-src-elem 'self' fonts.googleapis.com fonts.gstatic.com 'nonce-${nonce}'`);
+  }
   return next();
 });
 
 const PORT = process.env.PORT || 3000
-
+export {fs, __dirname};
 // ===============================
-// Sanity content config
+// Various enviorment specific configs
 // ================================
 let addlSanityConfig;
 if (!process.env.NODE_ENV) {
@@ -45,7 +49,37 @@ if (!process.env.NODE_ENV) {
     dataset: "development",
   };
 }
+/*
+const dbConnection = mysql.createConnection({
+host: 'localhost',
+port: '3307',
+user     : 'root',
+password : ' ',
+database : 'sinfully-coded'});
 
+ try {
+  dbConnection.connect((err, success) => {
+    if(err) {
+      console.log(err)
+    } else {
+      console.log('Connected to PlanetScale!');
+    }
+  });
+
+} catch(error) {
+  console.log(error)
+}
+
+app.get('/test', (req, res) => {
+  dbConnection.query('SELECT * FROM sessions', function (err, rows, fields) {
+    if (err) throw err
+    res.send(rows)
+  })
+}) */
+
+// ===============================
+// Sanity CMS config
+// ================================
 const sanityConfig = {
   projectId: '9e74j303',
   apiVersion: '2021-10-21',
@@ -114,6 +148,11 @@ app.get('/blog/categories/:cat', getPostsByCat)
 
 // posts by tag
 app.get('/blog/tags/:tag', getPostsByTag)
+
+// single blog post for previewing documents
+if(process.env.NODE_ENV === "development") {
+app.get('/blog/:slug', getSinglePostBySlug)
+}
 
 // single blog post
 app.get('/blog/:category/:slug', getSinglePostBySlug)

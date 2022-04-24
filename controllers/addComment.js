@@ -2,6 +2,7 @@ import { AkismetClient } from 'akismet-api';
 import { sanity } from '../server.js';
 import axios from 'axios';
 
+// TODO: Break this monstrosity apart
 export function addComment(req, res) {
 
   // set up askimet

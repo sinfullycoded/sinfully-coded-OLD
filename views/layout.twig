@@ -1,63 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>{{meta.title ?: page_title}}</title>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex,noarchive,nofollow" />
-    <meta property="og:url" content="{{meta.og_url|default("https://sinfullycoded.com")}}" />
-    <meta property="og:type" content="{{meta.og_type|default("website")}}" />
-    <meta property="og:title" content="{{meta.og_title|default(page_title)}}" />
-    <meta property="og:description" content="{{meta.og_description|default("A personal website & dev blog")}}" />
-    <meta property="og:image" content="{{meta.og_image|default("https://cdn.sanity.io/images/9e74j303/production/b402a0908c72ef494f28cd0e9aa8e8dc83f2d553-2052x1113.png")}}" />
-    <link rel="preconnect" href="//fonts.googleapis.com">
-    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
-    <link href="//fonts.googleapis.com/css2?family=Neuton&display=swap" rel="stylesheet" media="none" onload="this.media='all';">
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/assets/css/icomoon.css"/>
-    {% if page == 'index' %}
-    <link rel="stylesheet" type="text/css" href="/assets/css/index.css"/>
-    {% endif %}
-    {% if page == 'projects' %}
-    <link rel="stylesheet" type="text/css" href="/assets/css/projects.css"/>
-    {% endif %}
-    {% if page == 'blog' %}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css" media="none" onload="this.media='all';" nonce="{{ nonce }}">      
-    {% endif %}
-</head>
-{% if theme %}
-<body {{ "%s%s" | format("data-theme=", theme)}}>
-{% else %}
-<body>
-{% endif %}
-<nav>
-    <div class="container">
-        <div class="logo">
-            <a href="/" title="sinfullycoded.com"><img src="/assets/images/logo-main.webp" alt="sinfully coded logo" width="150" height="36"/></a>
-        </div>
-        <div class="nav-left">
-        <ul id="nav">
-            <li {% if page == 'index' %} class="active" {% endif %}><a href="/">Home</a></li>
-            {#<li {% if page == 'about' %} class="active" {% endif %}><a href="/about">About</a></li>#}
-            <li {% if page == 'blog' %} class="active" {% endif %}><a href="/blog">Blog</a></li>
-            <li {% if page == 'projects' %} class="active" {% endif %}><a href="/projects">Projects</a></li>
-        </ul>
-        <input id="theme-switcher" type="checkbox" title="Switch to dark theme"/>
-        </div>
-    </div>
-</nav>
-{% block content %}{% endblock %}
-<footer>
-    <div class="container">
-        <p>
-            © 2022 Sinfully Coded. All rights reserved
-        </p>
-        <p class="links">
-            <a target="_blank" href="/do"> Hosted on <img src="/assets/images/do-logo.webp" alt="Digital Ocean" width="12" height="12"/></a>
-        </p>
-    </div>
-</footer>
-<script type="module">import {themeManager} from "/assets/js/main.js";document.addEventListener("DOMContentLoaded", function () {themeManager()})</script>
-</body>
+	<head>
+		<title>{{meta.title ?: page_title}}</title>
+		<meta charset="UTF-8">
+		<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="robots" content="noindex,noarchive,nofollow"/>
+
+        <!-- SEO Meta -->
+        <meta name="description" content="A personal website & dev blog">
+
+        <!-- General Meta Tags -->
+		<meta property="og:url" content="{{meta.og_url|default("https://sinfullycoded.com")}}"/>
+		<meta property="og:type" content="{{meta.og_type|default("website")}}"/>
+		<meta property="og:title" content="{{meta.og_title|default(page_title)}}"/>
+		<meta property="og:description" content="{{meta.og_description|default("A personal website & dev blog")}}"/>
+		<meta
+		property="og:image" content="{{meta.og_image|default("https://cdn.sanity.io/images/9e74j303/production/b402a0908c72ef494f28cd0e9aa8e8dc83f2d553-2052x1113.png")}}"/>
+
+		<!-- Twitter Meta Tags -->
+		<meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:creator" content="@mostdefkima3ff">
+		<meta property="twitter:domain" content="sinfullycoded.com">
+		<meta property="twitter:url" content="{{meta.og_url|default("https://sinfullycoded.com")}}">
+		<meta name="twitter:title" content="{{meta.og_title|default(page_title)}}">
+		<meta name="twitter:description" content="{{meta.og_description|default("A personal website & dev blog")}}">
+		<meta name="twitter:image" content="{{meta.og_image|default("https://cdn.sanity.io/images/9e74j303/production/b402a0908c72ef494f28cd0e9aa8e8dc83f2d553-2052x1113.png")}}">
+
+        <!-- Fonts, CSS & other -->
+		<link rel="preconnect" href="//fonts.googleapis.com">
+		<link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+		<link href="//fonts.googleapis.com/css2?family=Neuton&display=swap" rel="stylesheet" media="none" onload="this.media='all';">
+		<link rel="stylesheet" type="text/css" href="/assets/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="/assets/css/icomoon.css"/>
+		{% if page == 'index' %}
+			<link rel="stylesheet" type="text/css" href="/assets/css/index.css"/>
+		{% endif %}
+		{% if page == 'projects' %}
+			<link rel="stylesheet" type="text/css" href="/assets/css/projects.css"/>
+		{% endif %}
+		{% if page == 'blog' %}
+			<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css" media="none" onload="this.media='all';" nonce="{{ nonce }}">
+		{% endif %}
+	</head>
+	{% if theme %}
+		<body {{ "%s%s" | format("data-theme=", theme)}}>
+		{% else %}
+			<body>
+			{% endif %}
+			<nav>
+				<div class="container">
+					<div class="logo">
+						<a href="/" title="sinfullycoded.com"><img src="/assets/images/logo-main.webp" alt="sinfully coded logo" width="150" height="36"/></a>
+					</div>
+					<div class="nav-left">
+						<ul id="nav">
+							<li {% if page == 'index' %} class="active" {% endif %}>
+								<a href="/">Home</a>
+							</li>
+							{#<li {% if page == 'about' %} class="active" {% endif %}><a href="/about">About</a></li>#}
+							<li {% if page == 'blog' %} class="active" {% endif %}>
+								<a href="/blog">Blog</a>
+							</li>
+							<li {% if page == 'projects' %} class="active" {% endif %}>
+								<a href="/projects">Projects</a>
+							</li>
+						</ul>
+						<input id="theme-switcher" type="checkbox" title="Switch to dark theme"/>
+					</div>
+				</div>
+			</nav>
+			{% block content %}{% endblock %}
+			<footer>
+				<div class="container">
+					<p>
+						© 2022 Sinfully Coded. All rights reserved
+					</p>
+					<p class="links">
+						<a target="_blank" href="/do">
+							Hosted on
+							<img src="/assets/images/do-logo.webp" alt="Digital Ocean" width="12" height="12"/></a>
+					</p>
+				</div>
+			</footer>
+			<script type="module">
+				import {themeManager} from "/assets/js/main.js";
+document.addEventListener("DOMContentLoaded", function () {
+themeManager()
+})
+			</script>
+		</body>
+	</html>
 </html>

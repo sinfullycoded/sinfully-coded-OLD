@@ -1,13 +1,21 @@
-import { formatDate, customTextComponents, slugify, checkPageTheme, getEstimatedReadingTime } from "../utils.js";
+import { formatDate, customTextComponents, slugify, checkPageTheme, getEstimatedReadingTime, generateOgImage, wrapText } from "../utils.js";
 import { toHTML } from "@portabletext/to-html";
 import { sanity } from '../server.js';
+import {fs, __dirname} from '../server.js';
 
 export default function getSinglePostBySlug(req, res) {
+
+    let includeDrafts = false;
+    if(req.query.preview) {
+        includeDrafts = true;
+    }
+
     const singlePostQuery =
-        `*[_type == 'post' && !(_id in path("drafts.**")) && slug.current == $slug]{ 
+        `*[_type == 'post' ${!includeDrafts ? '&& !(_id in path("drafts.**"))' : ''} && slug.current == $slug]{ 
             _id,
             "published": publishedAt, 
-            "updated": _updatedAt, 
+            "updated": _updatedAt,
+            "created": _createdAt, 
             title, 
             "slug": slug.current, 
             body, 
@@ -21,27 +29,41 @@ export default function getSinglePostBySlug(req, res) {
                 }, 
             "category": lower(categories[0]->title),
             tags,
-            "comments": *[_type == 'comment' && references(^._id) && !(_id in path("drafts.**"))]|order(_createdAt desc){
+            "comments": *[_type == 'comment' && references(^._id) && !(_id in path("drafts.**")) && type == 'parent']|order(_createdAt desc){
                 _createdAt,
                 _id,
                 comment,
                 "commenter_id": commenter->_id,
                 "twitter_handle": commenter->twitter_handle,
                 "website_url": commenter->website_url,
-                "avatar": commenter->avatar_url
-              }[0...10]
-        }`;
+                "avatar": commenter->avatar_url,
+                replies[]->{
+                    _createdAt,
+                    _id,
+                    comment,
+                    "commenter_id": commenter->_id,
+                    "twitter_handle": commenter->twitter_handle,
+                    "website_url": commenter->website_url,
+                    "avatar": commenter->avatar_url
+                }
+              }[0..10]
+        }[0]`;
 
     const params = { slug: req.params.slug }
     sanity.fetch(singlePostQuery, params).then((post) => {
 
         // Format dates
-        post[0].published = formatDate(post[0].published);
-        post[0].updated = formatDate(post[0].updated);
+        if(req.query.preview) {
+            post.published = formatDate(post.created);  
+        } else {
+            post.published = formatDate(post.published);
+        }
+        post.updated = formatDate(post.updated);
 
+       
         // Configure table of contents links for the blog post
         let toc = [];
-        post[0].body.forEach(body => {
+        post.body.forEach(body => {
             const headings = ["h1", "h2", "h3", "h4", "h5", "h6"];
             if (headings.includes(body.style)) {
                 toc.push({ title: body.children[0].text, anchor: slugify(body.children[0].text) })
@@ -69,24 +91,45 @@ export default function getSinglePostBySlug(req, res) {
             }
         }
 
-        post[0].readingTime = getEstimatedReadingTime(post[0].body);
+        post.readingTime = getEstimatedReadingTime(post.body);
+
+        const tags = post.tags;
+        const tagsWithHastags = tags.map(tag => '#' + tag);
+        post.tags = tagsWithHastags;
 
         const pageMeta = {
-            title: `${post[0].title} (sinfullycoded.com)`,
-            og_title: post[0].title,
-            og_url: `https://sinfullycoded.com/blog/${post[0].category}/${post[0].slug}`,
-            og_description: post[0].snippet,
+            title: `${post.title} (sinfullycoded.com)`,
+            og_title: post.title,
+            og_url: `${process.env.BASE_URL}/blog/${post.category}/${post.slug}`,
+            og_description: post.snippet,
             og_type: 'article',
             og_image: ''
         };
 
-        for (let i = 0; i < post[0].comments.length; i++) {
-            post[0].comments[i]["_createdAt"] = formatDate(post[0].comments[i]._createdAt);
+        const ogImgOpts = {
+            post_id: post._id,
+            category: post.category,
+            title: post.title,
+            tags: tagsWithHastags,
+            name: post.author.name,
+        }
+
+        fs.access(__dirname + `/public/assets/images/blog/${post._id}.png`, fs.F_OK, (err) => {
+            if (err) {
+                generateOgImage(ogImgOpts)
+                pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post._id}.png`;
+                return;
+            }
+            pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post._id}.png`;
+        });
+
+        for (let i = 0; i < post.comments.length; i++) {
+            post.comments[i]["_createdAt"] = formatDate(post.comments[i]._createdAt);
           }
 
-        const content = toHTML(post[0].body, { components: customTextComponents });
+        const content = toHTML(post.body, { components: customTextComponents });
         const nonce = res.locals.nonce;
 
-        res.render('post', { post: post[0], body: content, toc: toc, meta: pageMeta, path: breadcrumbs, page: 'blog', theme: checkPageTheme(req), nonce: nonce })
+        res.render('post', { post: post, body: content, toc: toc, meta: pageMeta, path: breadcrumbs, page: 'blog', theme: checkPageTheme(req), nonce: nonce })
     })
 }

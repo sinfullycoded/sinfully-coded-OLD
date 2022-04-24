@@ -82,35 +82,34 @@ function addListenersOnCommentForm() {
         response()
         .then(result => result.json())
         .then(data => {
+            console.log(data)
             if(data.status === 'success') {
-                document.getElementById("add-comment").setAttribute("disabled", "disabled");
+                console.log(data.status)
                 const commentFormMessageEl = document.getElementById("comment-msg");
                 const commentForm = document.getElementById("comment-form");
                 commentFormMessageEl.classList.add("success");
                 commentForm.style.display = 'none';
                 commentFormMessageEl.innerHTML = '<p>Your comment was successfully submitted. If all looks good, it\'ll be published within 24 hrs.</p>';
-            }
-        })
-        .catch(() => {
-            const commentFormMessageEl = document.getElementById("comment-msg");
+            } else {
+                console.log(data.status)
+                const commentFormMessageEl = document.getElementById("comment-msg");
                 const commentForm = document.getElementById("comment-form");
                 commentFormMessageEl.classList.add("error");
                 commentFormMessageEl.innerHTML = '<p>Something went wrong. Maybe try again?</p>';
-                document.querySelector("#comment-form button").removeAttribute("disabled");
+            }
+        })
+        .catch((err) => {
+            if (err) {
+                console.error(err)
+                const commentFormMessageEl = document.getElementById("comment-msg");
+                const commentForm = document.getElementById("comment-form");
+                commentFormMessageEl.classList.add("error");
+                commentFormMessageEl.innerHTML = '<p>Something went wrong. Maybe try again?</p>';
+            }
         })
     }
 
-    function toggleCommentForm() {
-        if (!document.querySelector('.comment-form-holder').classList.toString().includes("show")) {
-            document.querySelector('.comment-form-holder').classList.add('show')
-            document.querySelector('textarea[name="comment"]').focus();
-        } else {
-            document.querySelector('.comment-form-holder').classList.remove('show')
-        }
-    }
-
     document.getElementById("comment-form").addEventListener("submit", addComment)
-    document.getElementById("add-comment").addEventListener("click", toggleCommentForm)
 }
 
 export { themeManager, tableOfContentsObserver, addListenersOnCommentForm, adjustImgSizeOnMobile }

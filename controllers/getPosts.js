@@ -30,7 +30,7 @@ function getPostsByCat(req, res) {
   const postsbyCatQuery =
     `*[_type == "category" && title == $cat]{
         "category": lower(title),
-        "posts": *[_type == "post" && references(^._id)]{
+        "posts": *[_type == "post" && references(^._id) && !(_id in path("drafts.**"))]{
           "published": publishedAt, 
             "updated": _updatedAt, 
             title, 
@@ -64,7 +64,7 @@ function getPostsByCat(req, res) {
 
 function getPostsByTag(req, res) {
   const postsbyTagQuery =
-    `*[_type == "post" && $tag in tags]{
+    `*[_type == "post" && $tag in tags && !(_id in path("drafts.**"))]{
             "published": publishedAt, 
             "updated": _updatedAt, 
             title, 
