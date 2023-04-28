@@ -4,6 +4,7 @@
    <div class="container">
       <h1 class="main">Blog</h1>
       <div class="blog-grid">
+      {% if post|length > 0 %}
       {% for post in posts %}
       <div>
          <span class="cat">
@@ -25,6 +26,9 @@
             <p><a href="/blog/{{post.metadata.category.slug}}/{{post.slug}}">READ</a></p>
       </div>
       {% endfor %}
+      {% else %}
+      <p>Error retrieving posts </p>
+      {% endif %}
       </div>
    </div>
 </section>

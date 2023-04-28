@@ -40,11 +40,13 @@ let bucketSlug;
 if (!process.env.NODE_ENV) {
   dotenv.config({ path: '.env.production' })
   process.env.NODE_ENV = "production";
-  bucketSlug = 'sinfully-coded-production';
+  bucketSlug = 'sinfully-coded-prod';
 } else {
   dotenv.config({ path: '.env.development' })
   bucketSlug = 'sinfully-coded-staging';
 }
+
+console.log(process.env.NODE_ENV)
 
 // ===============================
 // Cosmic CMS config
