@@ -7,6 +7,7 @@
     </div>
     <div class="container">
     <div class="projects-list">
+    {% if projects|length > 0 %}
     {% for project in projects %}
         <div>
             <img class="pj-img" src="{{ "%s%s" | format(project.thumbnail, "?h=500&auto=format") }}" alt="{{project.title}}">
@@ -18,6 +19,9 @@
             </div>
         </div>
     {% endfor %}
+    {% else %}
+      <p>Error retrieving projects</p>
+    {% endif %}
     </div>
     </div>
 </section>
