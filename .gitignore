@@ -17,8 +17,5 @@ logs/
 *.log
 *.lock
 
-# Sanity JS (decided to keep it local for now)
-sanity/
-
 # Internal tools
 tools/

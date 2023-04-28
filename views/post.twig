@@ -1,128 +1,79 @@
 {% extends 'layout.twig' %}
 {% block content %}
-<section class="top-margin-large">
-   <div class="container medium">
-   <div class="post-grid">
-   <div class="post-container">
-   {# breadcrumb menu #}
-      <span class="breadcrumb">
-         <ul>
-            {% for segment in path %}
-            {% if segment.name == post.slug %}
-            <li>
-               {{ post.title }}
-            </li>
-            {% else %}
-            <li>
-               <a href="/{{ segment.path }}">{{ segment.name}}</a>
-            </li>
-            {% endif %}
-            {% endfor %}
-         </ul>
-      </span>
-      {# Post Container #}
-      <div class="sp">
-         <div class="post-head">
-            <span class="cat">{{ post.category }}</span>
-            <h2 class="post-title">{{post.title}}</h2>
-            <p class="meta">
-               <span>
-               {{post.published}} • {{ post.readingTime }} • 
-               {% if post.tags %}{% for tag in post.tags %}<span class="tag"><a href="/blog/tags/{{ tag }}">{{ tag }}</a></span>{% endfor %}{% endif %}
-               </span>
-               <span class="share">
-               <span>Share:</span>
-               <a target="_blank" aria-label="Share this post on Twitter" href="{{ "%s%s%s%s%s%s%s" | format("https://twitter.com/intent/tweet?text=", post.title, "&url=https://sinfullycoded.com/", post.category, "/", post.slug, "&via=mostdefkima3ff&original_referer=https%3A%2F%2Fsinfullycoded.com&hashtags=php,composer") }}">
-               <i class="icon-twitter"></i>
-               </a>
-               </span>
-            </p>
-         </div>
-         {# mobile table of contents #}
-         <details class="mtoc">
-            <summary>Table of contents</summary>
-            <ul>
-               {% for t in toc %}
-               <li><a href="#{{t.anchor}}">{{t.title}}</a></li>
-               {% endfor %}
-            </ul>
-         </details>
-         <div class="structured-markup">{{ body }}</div>
-         <p><em>Last updated: {{post.updated}}</em></p>
-      </div>
-      {# comments container #}
-      <div class="comments">
-         <h2>
-            <span><i class="uil uil-comment"></i> Comments ({{ post.comments|length }})</span>
-         </h2>
-            <div class="comment-form-holder">
-            {% include 'comment-form.twig' %}
-            </div>
-            {% if post.comments %}
-            <div class="comment-holder">
-            
-               <ul class="comment-items">
-                  {% for comment in post.comments %}
-                  <li data-comment-id="{{comment._id}}">
-                     {% if comment.avatar %}
-                     <span class="avatar"><img src="{{comment.avatar}}" alt="{{comment.twitter_handle}}"/></span>
-                     {% endif %}
-                     <div>
-                        {% if comment.replies %}
-                        <div class="has-replies">
-                           {% else %}
-                           <div>
-                              {% endif %}
-                              <span class="comment-head">
-                              <a href="{{ "%s%s" |format("https://twitter.com/", comment.twitter_handle) }}" data-commenter-id={{comment.commenter_id}}>{{"%s%s" |format("@", comment.twitter_handle)}}</a> • {{comment._createdAt}}
-                              </span>
-                              <p>{{comment.comment}}</p>
-                              <a href="#">REPLY</a>
-                              {#% include 'comment-form.twig' %#}
-                           </div>
-                           {% if comment.replies %}
-                           <ul data-comment-id="{{comment._id}}" class="comment-items replies">
-                              {% for reply in comment.replies %}
-                              <li data-reply-id="{{reply._id}}">
-                                 {% if reply.avatar %}
-                                 <span class="avatar"><img src="{{reply.avatar}}" alt="{{reply.twitter_handle}}"/></span>
-                                 {% endif %}
-                                 <div>
-                                    <span class="comment-head">
-                                    <a href="{{ "%s%s" |format("https://twitter.com/", reply.twitter_handle) }}" data-commenter-id={{reply.commenter_id}}>{{"%s%s" |format("@", reply.twitter_handle)}}</a> • {{reply._createdAt}}
-                                    </span>
-                                    <p>{{reply.comment}}</p>
-                                 </div>
-                              </li>
-                              {% endfor %}
-                           </ul>
-                           {% endif %}
-                        </div>
-                  </li>
-                  {% endfor %}
-               </ul>
-               </div>
-               {% endif %}
-            </div>
-         </div>
-         <div class="toc">
-            {% if toc %}
-            <h5>Table of contents</h5>
-            <ul>
-               {% for t in toc %}
-               <li><a href="#{{t.anchor}}">{{t.title}}</a></li>
-               {% endfor %}
-            </ul>
-            {% endif %}
-         </div>
-      </div>
-   </div>
-</section>
-<script type="module">
-   import { tableOfContentsObserver, addListenersOnCommentForm } from "/assets/js/main.js";
-   document.addEventListener("DOMContentLoaded", function () {
-      tableOfContentsObserver()
-      addListenersOnCommentForm()
-   })
-</script>
-{% endblock %}
+	<section class="top-margin-large">
+		<div class="container medium">
+			<div class="post-grid">
+				<div class="post-container">
+					{# breadcrumb menu #}
+					<span class="breadcrumb">
+						<ul>
+							{% for segment in path %}
+								{% if segment.name == post.slug %}
+									<li>
+										{{ post.title }}
+									</li>
+								{% else %}
+									<li>
+										<a href="/{{ segment.path }}">{{ segment.name}}</a>
+									</li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					</span>
+					{# Post Container #}
+					<div class="sp">
+						<div class="post-head">
+							<span class="cat">{{ post.metadata.category.title }}</span>
+							<h1 class="post-title">{{post.title}}</h1>
+							<p class="meta">
+								<span>
+									{{post.published}} • {{ post.readingTime }} • 
+									{% if post.metadata.tags %}
+										{% for tag in post.metadata.tags %}<span class="tag"><a href="/blog/tags/{{ tag.slug }}">{{ "%s%s" | format("#", tag.title) }}</a></span>{% endfor %}
+									{% endif %}
+								</span>
+								<span class="share">
+									<span>Share:</span>
+									{% set postTitle = post.title|url_encode %}
+									{% set postCat = post.metadata.category.title|lower %}
+									<a target="_blank" aria-label="Share this post on Twitter" href="{{ "%s%s%s%s%s%s%s" | format("https://twitter.com/intent/tweet?text=", postTitle, "&url=sinfullycoded.com/", postCat, "/", post.slug, "&via=mostdefkima3ff&original_referer=https%3A%2F%2Fsinfullycoded.com") }}">
+										<i class="icon-twitter"></i>
+									</a>
+								</span>
+							</p>
+						</div>
+						{# mobile table of contents #}
+						<details class="mtoc">
+							<summary>Table of contents</summary>
+							<ul>
+								{% for t in toc %}
+									<li>
+										<a href="#{{t.anchor}}">{{t.title}}</a>
+									</li>
+								{% endfor %}
+							</ul>
+						</details>
+						<div class="structured-markup">{{ body }}</div>
+						<p>
+							<em>Last updated:
+								{{post.updated}}</em>
+						</p>
+					</div>
+					{#% include 'comment-container.twig' %#}
+					</div>
+					<div class="toc">
+						{% if toc %}
+							<h5>Table of contents</h5>
+							<ul>
+								{% for t in toc %}
+									<li>
+										<a href="#{{t.anchor}}">{{t.title}}</a>
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</section>
+	{% endblock %}

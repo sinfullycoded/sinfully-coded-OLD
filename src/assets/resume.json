@@ -1,0 +1,183 @@
+{
+    "name": "Shakima Franklin",
+    "summary": "Technical Solutions professional with 4.5+ years of experience working with brands, agencies, and app partners to help manage e-commerce platform integrations. I am looking to continue to use technology to help people solve problems in a developer-focused role.",
+    "contactInfo": {
+        "location": "York, Pennsylvania",
+        "email": "shakima@sinfullycoded.com",
+        "phone": "929.409.1685",
+        "website": "sinfullycoded.com"
+    },
+    "experience": [
+        {
+            "company": "Refersion, Inc.",
+            "website": "https://refersion.com",
+            "location": "New York, NY",
+            "description": "Affiliate Marketing (SaaS)",
+            "tenure": "4.5 yrs",
+            "jobs": [
+                {
+                    "role": "Senior Manager, Technical Solutions",
+                    "dates": "Dec 2022 – Present",
+                    "bulletPoints": [
+                        "Due to company-wide layoffs, I was asked to return to my role in helping the customer success team provide technical solutions to clients."
+                    ]
+                },
+                {
+                    "role": "Software Engineer",
+                    "dates": "August 2022 – December 2022",
+                    "bulletPoints": [
+                        "Worked on small projects coded in PHP, HTML, JS, and CSS within a small internal application tooling team.",
+                        "Used AWS Lambda functions for deploying serverless code.",
+                        "Participated in peer code reviews within GitHub."
+                    ]
+                },
+                {
+                    "role": "Senior Manager, Technical Solutions",
+                    "dates": "Dec 2020 – August 2022",
+                    "bulletPoints": [
+                        "Built out Refersion's first technical-solution focused client-facing team.",
+                        "Managed a small team of solution specialists; with a focus on integration support, de-escalation & troubleshooting - helping them grow into independent problem-solvers and subject matter experts at Refersion.",
+                        "Built an automated report request system to alleviate customer pain-points related to product limitations within the existing system.",
+                        "Created internal UAT processes and guidelines to ensure new feature releases met the business needs of our customers.",
+                        "Maintained internal product documentation, external customer support resources & the company’s API technical documentation."
+                    ]
+                },
+                {
+                    "role": "Sales Engineer",
+                    "dates": "Sept 2019 – Dec 2020",
+                    "bulletPoints": [
+                        "Helped sales team members close key enterprise deals.",
+                        "Provided custom development proposals to clients and technical specifications to engineers for each project.",
+                        "Prototyped, and demonstrated proposed solutions to customers through presentations & in-person meetings to help move custom projects forward.",
+                        "Managed the full lifecycle of custom projects from RPF to UAT testing as well as provided ongoing account management to each customer."
+                    ]
+                },
+                {
+                    "role": "Customer Success Manager",
+                    "dates": "Aug 2018 – Sep 2019",
+                    "bulletPoints": [
+                        "Provided integration assistance & technical support for all major e-commerce platforms along with bespoke in-house commerce solutions.",
+                        "Lead demos, integration, troubleshooting and onboarding calls.",
+                        "Created detailed bug reports and feature requests tickets.",
+                        "Wrote SQL queries to provide custom reports to customers upon request.",
+                        "Use Refersion's API to help clients automate manual tasks such as bulk operations or making up for product gaps."
+                    ]
+                }
+            ]
+        },
+        {
+            "company": "Solabia USA, Inc.",
+            "website": "https://www.solabia.com",
+            "location": "New York, NY",
+            "description": "Cosmetic & Nutraceutical Ingredients Supplier",
+            "tenure": "2 yrs",
+            "jobs": [
+                {
+                    "role": "Customer Service Representative",
+                    "dates": "August 2016 – July 2018",
+                    "bulletPoints": [
+                        "Responded to inquiries from cosmetics manufacturers for raw material product information, specifications, lead-times, and technical data sheets.",
+                        "Created purchase orders in the Stellae web system for local warehouse processing and delivery.",
+                        "Ran quarterly sales report and placed sea freight orders from the parent company in France to replenish local US inventory based on sales forecasting",
+                        "Handled international customs clearance and logistics with land, ocean and air freight carriers to ensure timely delivery to our warehouse; then to our end-customers.",
+                        "Collaborated with logistics and operations team leaders to resolve shipping conflicts.",
+                        "Created process documentation to help ensure compliance with FDA guidelines related to importing fish & wildlife for materials. "
+                    ]
+                }
+            ]
+        }
+    ],
+    "otherExperience": [
+        {
+            "company": "2SeeLife",
+            "website": "https://www.2seelife.com",
+            "location": "New York, NY",
+            "description": "Wholesale & Resale",
+            "tenure": "5 yrs",
+            "job": {
+                "role": "Sales Manager",
+                "dates": "May 2012 – May 2018",
+                "description": [
+                    "Managed and trained new employees on operational procedures which include cash management, booth organization, and selling to increase the average order value."
+                ]
+            }
+        },
+        {
+            "company": " Bonjour Jewelry Corp",
+            "website": "https://djula.fr",
+            "location": "New York, NY",
+            "description": "Retail Jewelry Store",
+            "tenure": "3 mos",
+            "job": {
+                "role": "Assistant Manager",
+                "dates": "May 2017 – August 2017",
+                "description": [
+                    "Started out as an associate and grew quickly into a supervisory role. Supervised a team of 5 employees in the store until the business relocated and ultimately closed."
+                ]
+            }
+        },
+        {
+            "company": "University Settlement",
+            "website": "https://www.universitysettlement.org",
+            "location": "Brooklyn, NY",
+            "description": "Social Services, Early Childhood Education",
+            "tenure": "3 yrs",
+            "job": {
+                "role": "Teacher's Aide",
+                "dates": "August 2013 – July 2016",
+                "description": [
+                    "Assessed and recorded student's developmental progress via Teaching Strategies Online Documentation tool. Worked collaboratively with teaching team to contribute ideas in weekly lesson planning to coincide with the Creative Curriculum and Department of Education Universal Pre-K standards in addition to supervising and caring for 20 preschool age children."
+                ]
+            }
+        }
+    ],
+    "skills": {
+        "programming": [
+            "PHP",
+            "JavaScript",
+            "NodeJS",
+            "MySQL",
+            "REST APIs",
+            "GraphQL",
+            "React"
+        ],
+        "tools": [
+            "Git",
+            "Jira",
+            "AWS"
+        ],
+        "ecommerce": [
+            "Shopify",
+            "BigCommerce",
+            "WooCommerce",
+            "Headless Commerce",
+            "Salesforce Commerce Cloud",
+            "Magento",
+            "Snipcart"
+        ]
+    },
+    "projects": [
+        {
+            "name": "Sinfully Coded",
+            "description": "My personal website and blog",
+            "tags": [
+                "NodeJS",
+                "Express",
+                "Twig",
+                "CosmicJS"
+            ],
+            "link": "sinfullycoded.com"
+        },
+        {
+            "name": "Featrd",
+            "description": "A feature request management application for SaaS businesses",
+            "tags": [
+                "PHP",
+                "JS",
+                "HTML",
+                "CSS"
+            ],
+            "link": "sinfullycoded.com/p/ftrdv1"
+        }
+    ]
+}

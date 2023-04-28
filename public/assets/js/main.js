@@ -36,8 +36,8 @@ function tableOfContentsObserver() {
         let bottomOffset = (window.innerHeight - 30) * -1;
         const ops = { rootMargin: `0px 0px ${bottomOffset}px 0px` };
 
-        // Retrieve all blog post headings with ids (h3 in my case)
-        const headings = Array.from(document.querySelectorAll("h3[id]"));
+        // Retrieve all blog post headings with ids (h2 in my case)
+        const headings = Array.from(document.querySelectorAll("h2[id]"));
         const allHeadingLinks = Array.from(document.querySelectorAll(".toc > ul > li > a"));
 
         // Once a scrolling event is detected, iterate all elements whose visibility changed and highlight their corresponding navigation link
@@ -72,6 +72,7 @@ function addListenersOnCommentForm() {
         document.querySelector("#comment-form button").setAttribute("disabled", "disabled");
         let formData = new FormData(e.target)
         formData.append('post_id', e.target.getAttribute("data-post-id"))
+        formData.append('post_title', e.target.getAttribute("data-post-title"))
         let data = {};
         for (const [key, value] of formData) {
             data[key] = value;
@@ -80,36 +81,51 @@ function addListenersOnCommentForm() {
         const response = async () => await fetch('/api/add-comment', { body: JSON.stringify(data), method: 'POST', headers: { 'Content-Type': 'application/json' } })
 
         response()
-        .then(result => result.json())
-        .then(data => {
-            console.log(data)
-            if(data.status === 'success') {
-                console.log(data.status)
-                const commentFormMessageEl = document.getElementById("comment-msg");
-                const commentForm = document.getElementById("comment-form");
-                commentFormMessageEl.classList.add("success");
-                commentForm.style.display = 'none';
-                commentFormMessageEl.innerHTML = '<p>Your comment was successfully submitted. If all looks good, it\'ll be published within 24 hrs.</p>';
-            } else {
-                console.log(data.status)
-                const commentFormMessageEl = document.getElementById("comment-msg");
-                const commentForm = document.getElementById("comment-form");
-                commentFormMessageEl.classList.add("error");
-                commentFormMessageEl.innerHTML = '<p>Something went wrong. Maybe try again?</p>';
-            }
-        })
-        .catch((err) => {
-            if (err) {
-                console.error(err)
-                const commentFormMessageEl = document.getElementById("comment-msg");
-                const commentForm = document.getElementById("comment-form");
-                commentFormMessageEl.classList.add("error");
-                commentFormMessageEl.innerHTML = '<p>Something went wrong. Maybe try again?</p>';
-            }
-        })
+            .then(result => result.json())
+            .then(data => {
+                console.log(data)
+                if (data.status === 'success') {
+                    console.log(data.status)
+                    const commentFormMessageEl = document.getElementById("comment-msg");
+                    const commentForm = document.getElementById("comment-form");
+                    commentFormMessageEl.classList.add("success");
+                    commentForm.style.display = 'none';
+                    commentFormMessageEl.innerHTML = '<p>Your comment was successfully submitted. If all looks good, it\'ll be published within 24 hrs.</p>';
+                } else {
+                    console.log(data.status)
+                    const commentFormMessageEl = document.getElementById("comment-msg");
+                    const commentForm = document.getElementById("comment-form");
+                    commentFormMessageEl.classList.add("error");
+                    commentFormMessageEl.innerHTML = '<p>Something went wrong. Maybe try again?</p>';
+                }
+            })
+            .catch((err) => {
+                if (err) {
+                    console.error(err)
+                    const commentFormMessageEl = document.getElementById("comment-msg");
+                    const commentForm = document.getElementById("comment-form");
+                    commentFormMessageEl.classList.add("error");
+                    commentFormMessageEl.innerHTML = '<p>Something went wrong. Maybe try again?</p>';
+                }
+            })
     }
 
     document.getElementById("comment-form").addEventListener("submit", addComment)
 }
 
-export { themeManager, tableOfContentsObserver, addListenersOnCommentForm, adjustImgSizeOnMobile }
+function changeTabs(e) {
+    e.preventDefault()
+    document.querySelectorAll('.tabbed > ul > li a').forEach(a => {
+        a.classList.remove("active")
+    })
+
+    e.currentTarget.classList.add("active");
+
+    document.querySelectorAll('.tabbed > div[class^="tab"]').forEach(div => {
+        div.style.display = "none";
+        let targetDiv = e.currentTarget.href.split('#').pop();
+        document.getElementsByClassName(targetDiv)[0].style.display = "block";
+    })
+}
+
+export { themeManager, tableOfContentsObserver, addListenersOnCommentForm, adjustImgSizeOnMobile, changeTabs }

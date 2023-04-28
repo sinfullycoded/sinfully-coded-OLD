@@ -1,0 +1,57 @@
+<div class="comments">
+	<h2>
+		<span>
+			<i class="uil uil-comment"></i>
+			Comments ({{ post.metadata.comments|length }})</span>
+	</h2>
+	<div class="comment-form-holder">
+		{% include 'comment-form.twig' %}
+	</div>
+	{% if post.metadata.comments %}
+		<div class="comment-holder">
+			<ul class="comment-items">
+				{% for comment in post.metadata.comments %}
+					<li data-comment-id="{{comment.id}}">
+						{% if comment.metadata.participant.thumbnail %}
+							<span class="avatar"><img src="{{comment.metadata.participant.thumbnail}}" alt="{{comment.metadata.participant.title}}"/></span>
+						{% endif %}
+						<div>
+							{% if comment.replies %}
+								<div class="has-replies">
+								{% else %}
+									<div>
+									{% endif %}
+									<span class="comment-head">
+										<a href="{{ comment.metadata.participant.metadata.website }}" target="_blank" data-commenter-id={{comment.metadata.participant.id}}>{{comment.metadata.participant.title}}</a>
+										•
+										{{comment.created_at}}
+									</span>
+									<p>{{comment.content}}</p>
+									<a href="#">REPLY</a>
+								</div>
+								{% if comment.replies %}
+									<ul data-comment-id="{{comment._id}}" class="comment-items replies">
+										{% for reply in comment.replies %}
+											<li data-reply-id="{{reply._id}}">
+												{% if reply.avatar %}
+													<span class="avatar"><img src="{{reply.avatar}}" alt="{{reply.twitter_handle}}"/></span>
+												{% endif %}
+												<div>
+													<span class="comment-head">
+														<a href="{{ "%s%s" |format("https://twitter.com/", reply.twitter_handle) }}" data-commenter-id={{reply.commenter_id}}>{{"%s%s" |format("@", reply.twitter_handle)}}</a>
+														•
+														{{reply._createdAt}}
+													</span>
+													<p>{{reply.comment}}</p>
+												</div>
+											</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>

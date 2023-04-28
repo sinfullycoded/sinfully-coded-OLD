@@ -1,14 +1,14 @@
 <blockquote class="alert" id="comment-msg"></blockquote>
-<form class="comment-form" id="comment-form" data-post-id="{{post._id}}">
-	<span class="avatar"><img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?f=y&d=mp" alt="mostdefkima3ff"></span>
+<form class="comment-form" id="comment-form" data-post-id="{{post.id}}" data-post-title={{post.title}}>
+	<span class="avatar"><img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?f=y&d=mp" alt="placeholder avatar"></span>
 	<div>
 		<div class="form-item inline block cont">
 			<textarea title="comment" name="comment" placeholder="your thoughts..." required></textarea>
 			<div class="comment-grid">
 				<div>
 					<div class="form-item inline">
-						<input type="text" name="twitter_handle" placeholder="mostdefkima3ff" pattern="^[A-Za-z0-9_]{1,15}$" maxlength="15" title="No @ sign; 15 chars max" required/>
-						<label>Twitter handle
+						<input type="text" name="name" placeholder="Jane Doe" pattern="([\w]){3,80}\b|([\w]){3,80}\s([\w]){2,80}" maxlength="80" title="80 chars max" required/>
+						<label>Name
 							<strong class="required">*</strong>
 						</label>
 					</div>
@@ -16,12 +16,15 @@
 						<input type="url" name="website_url" placeholder="https://"/>
 						<label>Website url</label>
 					</div>
+					<div class="form-item inline">
+						<a href="#">use email instead</a>
+					</div>
 				</div>
 				<div class="form-item">
 					<button type="submit" class="primary">Add comment</button>
 				</div>
 			</div>
 		</div>
-        <em class="comment-form-info">Comments will be held for moderation. This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a></em>
+        <em class="comment-form-info">Comments will be held for moderation. This site is not on wordpress but independently uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a></em>
 	</div>
 </form>

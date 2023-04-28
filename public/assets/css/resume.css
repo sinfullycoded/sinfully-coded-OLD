@@ -1,0 +1,268 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Neuton';
+    src: url('/assets/fonts/Neuton-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+
+:root {
+    --primary-color: #721932;
+    --secondary-color: #cb440f;
+    --bright-orange: #ff9449;
+    --muted-grey: #f3f5f7;
+    --tertiary-color: #c415bc;
+}
+
+body {
+    background: #f9f9fd;
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    padding: 0;
+    margin: 0;
+}
+
+hr.decorated {
+    background: linear-gradient(to right, var(--primary-color), var(--tertiary-color), var(--bright-orange), var(--secondary-color));
+    height: 3px;
+    border: none;
+    display: block;
+    margin: 20px 0;
+}
+
+section {
+    max-width: 8.5in;
+    margin: 0.4in auto;
+    padding: 0.4in;
+    box-shadow: 0 2px 3px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%), 0 3px 1px -2px rgb(0 0 0 / 20%);
+    page-break-after: always;
+    break-after: page;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    background-color: white;
+}
+
+section {
+    page-break-after: always;
+    break-after: page;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Neuton', serif;
+    letter-spacing: 1.2px;
+    margin: 0 0 10px 0;
+    line-height: 1;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h3:not(h3:first-of-type) {
+    margin-top: 20px;
+}
+
+.heading-grid>div>p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.heading-grid>div>ul {
+    font-size: 9.5pt;
+}
+
+.contact-info {
+    min-width: max-content;
+}
+
+a {
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+a:hover {
+    color: var(--bright-orange);
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+span.material-symbols-outlined {
+    font-size: 1rem;
+}
+
+.heading-grid {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+}
+
+ul.jobs {
+    list-style: disc;
+    padding-left: 40px;
+}
+
+ul.duties {
+    list-style: circle;
+    padding-left: 30px;
+}
+
+.left {
+    min-width: 70%;
+}
+
+.right {
+    padding-left: 20px;
+}
+
+main.body-grid {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 25px;
+}
+
+span.role-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+span.role-container span:last-child {
+    font-style: italic;
+}
+
+span.role-container span:first-child {
+    font-weight: bold;
+}
+
+p.company {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+p.company>span {
+    font-weight: bold;
+}
+
+p.company>span>em {
+    font-weight: normal;
+    font-size: 9.7pt;
+}
+
+p.company img {
+    margin-right: 5px;
+}
+
+.tags>span {
+    background: #eeeaee;
+    border: 1p;
+    padding: 2px 4px;
+    border-radius: 4px;
+    margin: 4px 2px;
+    display: inline-block;
+    font-size: 9pt;
+}
+
+p.bold {
+    font-weight: bold;
+    margin: 0;
+}
+
+.nm {
+    margin: 0;
+}
+
+.mb {
+    margin: 0;
+    margin-bottom: 20px
+}
+
+p.nm>span.material-symbols-outlined {
+    margin: 0;
+    font-size: .9rem;
+    margin-right: 3px;
+}
+
+ul.with-space li {
+    margin-bottom: 25px;
+}
+
+ul.with-space li > span.role-container {
+    margin: 0;
+}
+
+ul.with-space li > p.company {
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.m {
+    margin: 30px 0 20px;
+}
+
+ul.alt-exp {
+    list-style: disc;
+    padding-left: 40px;
+}
+
+.tools > span::after {
+    content: "//";
+    margin: 0;
+}
+
+.tools > span:last-of-type::after {
+    display: none;
+}
+
+.contact-info > ul > li {
+    display: flex;
+    align-items: center;
+}
+
+.contact-info > ul > li > span {
+    margin-right: 5px;
+}
+
+@media print {
+    body {
+        background: #fff;
+    }
+
+    section {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .right {
+        height: fit-content;
+        padding-bottom: 60px;
+    }
+}
+
+@page {
+    size: letter;
+    margin: 0.5in;
+    counter-increment: page;
+    counter-reset: page 1;
+    @bottom-center {
+        content: "Page " counter(page) " of " counter(pages);
+    }
+}

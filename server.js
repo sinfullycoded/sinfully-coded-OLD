@@ -3,11 +3,10 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import sanityClient from '@sanity/client';
 import compression from 'compression';
 import crypto from 'crypto';
-import mysql from 'mysql2';
 import fs from 'fs';
+import Cosmic from 'cosmicjs';
 
 // ===============================
 // General path, view config & other middleware
@@ -33,61 +32,34 @@ app.use(function(req, res, next) {
 
 const PORT = process.env.PORT || 3000
 export {fs, __dirname};
+
 // ===============================
-// Various enviorment specific configs
+// Set enviornment appropiate variables
 // ================================
-let addlSanityConfig;
+let bucketSlug;
 if (!process.env.NODE_ENV) {
   dotenv.config({ path: '.env.production' })
   process.env.NODE_ENV = "production";
-  addlSanityConfig = {
-    dataset: "production",
-  };
+  bucketSlug = 'sinfully-coded-production';
 } else {
   dotenv.config({ path: '.env.development' })
-  addlSanityConfig = {
-    dataset: "development",
-  };
+  bucketSlug = 'sinfully-coded-staging';
 }
-/*
-const dbConnection = mysql.createConnection({
-host: 'localhost',
-port: '3307',
-user     : 'root',
-password : ' ',
-database : 'sinfully-coded'});
-
- try {
-  dbConnection.connect((err, success) => {
-    if(err) {
-      console.log(err)
-    } else {
-      console.log('Connected to PlanetScale!');
-    }
-  });
-
-} catch(error) {
-  console.log(error)
-}
-
-app.get('/test', (req, res) => {
-  dbConnection.query('SELECT * FROM sessions', function (err, rows, fields) {
-    if (err) throw err
-    res.send(rows)
-  })
-}) */
 
 // ===============================
-// Sanity CMS config
+// Cosmic CMS config
 // ================================
-const sanityConfig = {
-  projectId: '9e74j303',
-  apiVersion: '2021-10-21',
-  token: process.env.SANITY_AUTH_TOKEN,
-  useCdn: true
-};
+const cosmicClient = Cosmic();
 
-export const sanity = sanityClient({ ...sanityConfig, ...addlSanityConfig })
+export const cosmicReader = cosmicClient.bucket({
+  slug: bucketSlug,
+  read_key: process.env.COSMIC_RK
+});
+
+export const cosmicWriter = cosmicClient.bucket({
+  slug: bucketSlug,
+  write_key: process.env.COSMIC_WK
+});
 
 // ===============================
 // API Routes
@@ -100,7 +72,9 @@ app.post('/api/add-comment', express.json(), addComment)
 // ===============================
 import getSinglePostBySlug from './controllers/getSinglePost.js';
 import { getPosts, getPostsByCat, getPostsByTag } from './controllers/getPosts.js';
+import { getProjects } from './controllers/getProjects.js';
 import { addComment } from './controllers/addComment.js';
+import { outputFeed } from './controllers/generateFeed.js';
 import { checkPageTheme } from './utils.js';
 
 
@@ -112,36 +86,53 @@ app.get('/', async (req, res) => {
   res.render('index', { page_title: 'Sinfully Coded - A personal site & dev blog', page: 'index', theme: checkPageTheme(req), nonce: res.locals.nonce });
 })
 
-app.get('/about', async (req, res) => {
+/* app.get('/about', async (req, res) => {
   res.render('about', { page_title: 'About (sinfullycoded.com)', page: 'about', theme: checkPageTheme(req), nonce: res.locals.nonce});
+}) */
+
+app.get('/projects', getProjects)
+
+app.get('/resume', async (req, res) => {
+  let allowedIps = ['68.183.134.79', '::1'];
+
+  if(!allowedIps.includes(req.ip)) {
+    return res.status(404).render('errors/404');
+  }
+
+  let resumeData;
+
+  async function getResumeData() {
+    return new Promise(function (resolve, reject) {
+      fs.readFile('src/assets/resume.json', 'utf-8', (error, data) => {
+        if (error) reject(error)
+        else resolve(JSON.parse(data));
+      })
+    })
+  }
+
+  resumeData = await getResumeData();
+
+  res.render('resume', { data: resumeData, page_title: 'Shakima F. - Resume (sinfullycoded.com)', page: 'resume', theme: checkPageTheme(req), nonce: res.locals.nonce});
 })
 
-// TODO: Move main function logic out of server file and import
-app.get('/projects', async (req, res) => {
-  const projectsQuery =
-    `*[_type == 'project']|order(_updatedAt desc){ 
-      _updatedAt,
-      title, 
-      slug, 
-      status,
-      summary,  
-      languages,
-      tech,
-      "image": mainImage.asset->url
-    }[0...10]`;
 
-  const projects = await sanity.fetch(projectsQuery)
-
-  res.render('projects', { projects: projects, page_title: 'Projects (sinfullycoded.com)', page: 'projects', theme: checkPageTheme(req), nonce: res.locals.nonce });
-})
-
+// ===============================
+// URL Redirects
+// ===============================
 app.get("/do", (req, res) => {
   res.status(301).redirect("https://m.do.co/c/07590f95adbe")
+})
+
+app.get("/p/ftrdv1", (req, res) => {
+  res.status(301).redirect("https://web.archive.org/web/20211028031147/https://featrd.io/")
 })
 
 // ===============================
 // Blog Routes
 // ===============================
+
+// Feeds for readers
+app.get('/blog/:feed(rss|json|atom)', outputFeed)
 
 //  posts by category
 app.get('/blog/categories/:cat', getPostsByCat)
@@ -162,7 +153,7 @@ app.get('/blog', getPosts)
 
 // catchall, show a 404 error
 app.get('*', async (req, res) => {
-  res.render('errors/404');
+  res.status(404).render('errors/404');
 })
 
 // development error handler
@@ -186,13 +177,12 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(PORT, () => {
-  console.log('Your app is running at http://localhost:' + PORT)
+  console.log('Your app is running at ' + process.env.BASE_URL)
 })
 
 process.on('SIGTERM', () => {
   debug('SIGTERM signal received: closing HTTP server')
   server.close(() => {
     process.exit()
-    debug('HTTP server closed')
   })
 })

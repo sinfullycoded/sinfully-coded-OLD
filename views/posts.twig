@@ -6,21 +6,23 @@
       <div class="blog-grid">
       {% for post in posts %}
       <div>
-         <span class="cat"><a href="/blog/categories/{{post.category}}">{{ post.category }}</a></span>
+         <span class="cat">
+            <a href="/blog/categories/{{post.metadata.category.slug}}">{{ post.metadata.category.title }}</a>
+         </span>
          <p>{{ post.published }} • {{ post.readingTime }}</p>
-         {% if post.image %}
-         <p class="mainimage"><a href="/blog/{{post.category}}/{{post.slug}}"><img class="main-image" src="{{ post.image }}?w=350&auto=format" alt="{{post.title}}"></a></p>
+         {% if post.thumbnail %}
+         <p class="mainimage"><a href="/blog/{{post.metadata.category.slug}}/{{post.slug}}"><img class="main-image" src="{{ post.thumbnail }}?w=350&auto=format" alt="{{post.title}}"></a></p>
          {% endif %}
-         <h3><a href="/blog/{{post.category}}/{{post.slug}}"><b>{{post.title}}</b></a></h3>
-         <p>{{post.snippet}}</p>
-          {% if post.tags %}
+         <h3><a href="/blog/{{post.metadata.category.slug}}/{{post.slug}}"><b>{{post.title}}</b></a></h3>
+         <p>{{post.content}}</p>
+          {% if post.metadata.tags %}
           <p class="tags">
-            {% for tag in post.tags %}
-            <span class="tag"><a href="/blog/tags/{{tag}}">{{ "%s%s" | format("#", tag) }}</a></span>
+            {% for tag in post.metadata.tags %}
+            <span class="tag"><a href="/blog/tags/{{tag.slug}}">{{ "%s%s" | format("#", tag.title) }}</a></span>
             {% endfor %}
          </p>
             {% endif %}
-            <p><a href="/blog/{{post.category}}/{{post.slug}}">READ</a></p>
+            <p><a href="/blog/{{post.metadata.category.slug}}/{{post.slug}}">READ</a></p>
       </div>
       {% endfor %}
       </div>

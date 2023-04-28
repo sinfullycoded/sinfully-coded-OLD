@@ -31,6 +31,7 @@
 		<link rel="preconnect" href="//fonts.googleapis.com">
 		<link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
 		<link href="//fonts.googleapis.com/css2?family=Neuton&display=swap" rel="stylesheet" media="none" onload="this.media='all';">
+		<link href="//fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="/assets/css/style.css"/>
 		<link rel="stylesheet" type="text/css" href="/assets/css/icomoon.css"/>
 		{% if page == 'index' %}
@@ -39,7 +40,7 @@
 		{% if page == 'projects' %}
 			<link rel="stylesheet" type="text/css" href="/assets/css/projects.css"/>
 		{% endif %}
-		{% if page == 'blog' %}
+		{% if page == 'blog-post' %}
 			<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/tokyo-night-dark.min.css" media="none" onload="this.media='all';" nonce="{{ nonce }}">
 		{% endif %}
 	</head>
@@ -74,7 +75,7 @@
 			<footer>
 				<div class="container">
 					<p>
-						© 2022 Sinfully Coded. All rights reserved.
+						© {{ 'now' | date('Y') }} Sinfully Coded. All rights reserved.
 					</p>
 					<p class="links">
 						<a target="_blank" href="/do">
@@ -84,11 +85,25 @@
 				</div>
 			</footer>
 			<script type="module">
-				import {themeManager} from "/assets/js/main.js";
-document.addEventListener("DOMContentLoaded", function () {
-themeManager()
-})
+			import {themeManager} from "/assets/js/main.js";
+			document.addEventListener("DOMContentLoaded", function () {
+				themeManager()
+			})
 			</script>
+			{% if page == 'blog-post' %}
+			<script type="module">
+			import {tableOfContentsObserver, addListenersOnCommentForm, changeTabs} from "/assets/js/main.js";
+
+			document.addEventListener("DOMContentLoaded", () => {
+				tableOfContentsObserver()
+				//addListenersOnCommentForm()
+				document.querySelector('.tabbed > ul > li:first-of-type a').classList.add("active");
+				document.querySelectorAll(".tabbed > ul > li > a").forEach(listLink => {
+					listLink.addEventListener("click", changeTabs)
+				})
+			})
+			</script>
+			{% endif %}
 		</body>
 	</html>
 </html>

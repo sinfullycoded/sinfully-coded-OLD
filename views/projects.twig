@@ -9,12 +9,12 @@
     <div class="projects-list">
     {% for project in projects %}
         <div>
-            <img class="pj-img" src="{{ "%s%s" | format(project.image, "?h=500&auto=format") }}" alt="{{project.title}}">
+            <img class="pj-img" src="{{ "%s%s" | format(project.thumbnail, "?h=500&auto=format") }}" alt="{{project.title}}">
             <div class="pj-desc">
             <h3><b>{{project.title}}</b></h3>
             {# <h3><a href="/projects/{{project.slug.current}}"><b>{{project.title}}</b></a></h3> #}
-            <p>{{project.summary}}</p>
-            <span class="cat">{{project.status}}</span>
+            <p>{{project.content}}</p>
+            <span class="cat">{{project.metadata.status.value}}</span>
             </div>
         </div>
     {% endfor %}

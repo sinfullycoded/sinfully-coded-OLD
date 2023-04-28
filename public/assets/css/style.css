@@ -156,7 +156,6 @@ body[data-theme="dark"] a:hover {
     color: #f3aa77;
 }
 
-
 nav .container {
     display: flex;
     flex-direction: column;
@@ -853,6 +852,10 @@ body[data-theme="dark"] .post-container * {
     ;
 }
 
+body[data-theme="dark"] .tabbed > ul > li a.active::after {
+    background: #353342;
+}
+
 div#right {
     padding: 10px;
 }
@@ -1108,8 +1111,8 @@ section.home>div.container {
     }
 
     .toc {
-        position: sticky;
         position: -webkit-sticky;
+        position: sticky;
         top: 0;
         min-width: 250px;
         margin-left: 30px;
@@ -1117,7 +1120,7 @@ section.home>div.container {
     }
 
     .sp h2 {
-        font-size: 2.5rem;
+        font-size: 2rem;
         margin: 20px 0 10px;
     }
 
@@ -1300,8 +1303,7 @@ section.home>div.container {
     }
 
     .sp h1 {
-        padding-bottom: 20px;
-        border-bottom: 1px solid #ddd;
+        margin-top: 20px;
     }
 
     nav div.container {
@@ -1348,4 +1350,68 @@ pre.hljs {
 
 .pj-desc {
     padding: 20px;
+}
+
+span.material-symbols-outlined {
+    font-size: 1rem;
+    font-feature-settings:"liga";
+}
+
+.tabbed > ul > li {
+    display: inline-block;
+    margin: 0;
+}
+
+.tabbed > ul > li a {
+    display: block;
+    padding: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.tabbed > ul > li a.active {
+    border: 1px solid #ddd;
+    border-radius: 6px 6px 0 0;
+}
+
+.tabbed > ul > li a.active::after {
+    content: " ";
+    display: block;
+    height: 4px;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    background: white;
+    width: 100%;
+    z-index: 2;
+}
+
+.tabbed > div {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.tabbed > ul {padding: 0;margin: 0;}
+
+pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.tabbed > div[class^="tab"]:not(div[class="tab1"]) {
+    display: none;
+}
+
+img[alt="PHPSandbox Notebook"] {
+    height: 24px;
+}
+
+pre code.hljs {
+    border-radius: 8px;
+}
+
+h1.post-title {
+    font-size: 2.5rem;
 }

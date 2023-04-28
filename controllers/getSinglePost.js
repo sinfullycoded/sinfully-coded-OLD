@@ -1,136 +1,165 @@
-import { formatDate, customTextComponents, slugify, checkPageTheme, getEstimatedReadingTime, generateOgImage, wrapText } from "../utils.js";
-import { toHTML } from "@portabletext/to-html";
-import { sanity } from '../server.js';
-import {fs, __dirname} from '../server.js';
+import { formatDate, slugify, checkPageTheme, generateOgImage } from "../utils.js";
+import { cosmicReader } from '../server.js';
+import { fs, __dirname } from '../server.js';
 
-export default function getSinglePostBySlug(req, res) {
+/* 
+ * Tools for processing markdown
+ *
+ * Why so many imports? Rehype/Remark relies on plugins for specific functionality 🤷🏾‍♀️
+ */
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import rehypeRaw from 'rehype-raw';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
+import rehypeStringify from 'rehype-stringify';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeSlug from 'rehype-slug';
+import readingTime from "remark-reading-time";
 
-    let includeDrafts = false;
-    if(req.query.preview) {
-        includeDrafts = true;
+export default async function getSinglePostBySlug(req, res) {
+
+    // Get posts from Cosmic JS SDK
+    const singlePostQuery = {type: "posts", slug: req.params.slug};
+
+    const props = [
+        "id",
+        "created_at",
+        "published_at",
+        "modified_at",
+        "status",
+        "slug",
+        "title",
+        "content",
+        "metadata"
+    ];
+
+    const getPost = await cosmicReader.objects
+        .find(singlePostQuery)
+        .props(props.toString())
+        .status("published")
+        .limit(1)
+
+    let post = getPost.objects[0];
+
+    // Format dates from post data
+    if (post.status !== "published") {
+        post.published = formatDate(post.created_at);
+    } else {
+        post.published = formatDate(post.published_at);
+    }
+    post.updated = formatDate(post.modified_at);
+
+    // Whitelists HTML attributes that are allowed from markdown
+    const rehypeSanitizeOptions = {
+        ...defaultSchema,
+        attributes: {
+            ...defaultSchema.attributes,
+            div: [
+                ...(defaultSchema.attributes.div || []),
+                ['className']
+            ],
+            span: [
+                ...(defaultSchema.attributes.span || []),
+                ['className']
+            ],
+            code: [
+                ...(defaultSchema.attributes.code || []),
+                // List of all allowed languages:
+                ['className', 'language-js', 'language-css', 'language-md', 'language-php', 'language-json', 'language-bash']
+            ]
+        }
+    };
+
+    // Process markdown, highlight code snippets, slugify heading names
+    const markdownProcessor = unified()
+        .use(remarkParse)
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeRaw)
+        .use(rehypeSanitize, rehypeSanitizeOptions)
+        .use(rehypeHighlight)
+        .use(rehypeSlug)
+        .use(readingTime)
+
+    const markdownData = post.metadata.md;
+    const html = await markdownProcessor.use(rehypeStringify).process(markdownData);
+    post["readingTime"] = html.data.readingTime.text;
+
+    // Create table of contents for blog post
+    let tableOfConents = [];
+    const markdownDocumentTree = markdownProcessor.parse(markdownData)["children"]
+
+    markdownDocumentTree
+    .filter((branch) => branch.type === "heading")
+    .map(heading => {
+        tableOfConents.push({
+            title: heading.children[0].value, 
+            anchor: slugify(heading.children[0].value)
+        })
+    })
+
+    // Create breadcrumbs menu for blog post
+    const breadcrumbs = [];
+    const path = req.path.split("/").splice(1);
+    for (let s = 0; s < path.length; s++) {
+        let basePath = path[0];
+        switch (s) {
+            case 0:
+                breadcrumbs.push({ name: basePath, path: basePath })
+                break;
+            case 1:
+                breadcrumbs.push({ name: path[s], path: `${basePath}/categories/${path[s]}` })
+                break;
+            case 2:
+                breadcrumbs.push({ name: path[s], path: `${basePath}/categories/${path[s - 1]}/${path[s]}` })
+                break;
+            case 3:
+                breadcrumbs.push({ name: path[s], path: `${basePath}/categories/${path[s - 2]}/${path[s - 1]}/${path[s]}` })
+                break;
+        }
     }
 
-    const singlePostQuery =
-        `*[_type == 'post' ${!includeDrafts ? '&& !(_id in path("drafts.**"))' : ''} && slug.current == $slug]{ 
-            _id,
-            "published": publishedAt, 
-            "updated": _updatedAt,
-            "created": _createdAt, 
-            title, 
-            "slug": slug.current, 
-            body, 
-            snippet,
-            author->
-                {
-                    name, 
-                    "image": image.asset->url, 
-                    bio,
-                    twitter_handle
-                }, 
-            "category": lower(categories[0]->title),
-            tags,
-            "comments": *[_type == 'comment' && references(^._id) && !(_id in path("drafts.**")) && type == 'parent']|order(_createdAt desc){
-                _createdAt,
-                _id,
-                comment,
-                "commenter_id": commenter->_id,
-                "twitter_handle": commenter->twitter_handle,
-                "website_url": commenter->website_url,
-                "avatar": commenter->avatar_url,
-                replies[]->{
-                    _createdAt,
-                    _id,
-                    comment,
-                    "commenter_id": commenter->_id,
-                    "twitter_handle": commenter->twitter_handle,
-                    "website_url": commenter->website_url,
-                    "avatar": commenter->avatar_url
-                }
-              }[0..10]
-        }[0]`;
 
-    const params = { slug: req.params.slug }
-    sanity.fetch(singlePostQuery, params).then((post) => {
+    // Generate blog meta tag data and OG image
+    const pageMeta = {
+        title: `${post.title} (sinfullycoded.com)`,
+        og_title: post.title,
+        og_url: `${process.env.BASE_URL}/blog/${post.metadata.category.title}/${post.slug}`,
+        og_description: post.content,
+        og_type: 'article',
+        og_image: ''
+    };
 
-        // Format dates
-        if(req.query.preview) {
-            post.published = formatDate(post.created);  
-        } else {
-            post.published = formatDate(post.published);
+    const ogImgOpts = {
+        post_id: post.id,
+        category: post.metadata.category.title,
+        title: post.title,
+        tags: post.metadata.tags.map(tag => `#${tag.title}`)
+    }
+
+    fs.access(__dirname + `/public/assets/images/blog/${post.id}.png`, fs.F_OK, (err) => {
+        if (err) {
+            generateOgImage(ogImgOpts)
+            pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post.id}.png`;
+            return;
         }
-        post.updated = formatDate(post.updated);
+    });
 
-       
-        // Configure table of contents links for the blog post
-        let toc = [];
-        post.body.forEach(body => {
-            const headings = ["h1", "h2", "h3", "h4", "h5", "h6"];
-            if (headings.includes(body.style)) {
-                toc.push({ title: body.children[0].text, anchor: slugify(body.children[0].text) })
-            }
-        })
+    pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post.id}.png`;
 
-        // Configure breadcrumbs menu
-        const breadcrumbs = [];
-        const path = req.path.split("/").splice(1);
-        for (let s = 0; s < path.length; s++) {
-            let basePath = path[0];
-            switch (s) {
-                case 0:
-                    breadcrumbs.push({ name: basePath, path: basePath })
-                    break;
-                case 1:
-                    breadcrumbs.push({ name: path[s], path: `${basePath}/categories/${path[s]}` })
-                    break;
-                case 2:
-                    breadcrumbs.push({ name: path[s], path: `${basePath}/categories/${path[s - 1]}/${path[s]}` })
-                    break;
-                case 3:
-                    breadcrumbs.push({ name: path[s], path: `${basePath}/categories/${path[s - 2]}/${path[s - 1]}/${path[s]}` })
-                    break;
-            }
-        }
+    // Prepare page data and render post view
+    const nonce = res.locals.nonce;
+    const pageData = { 
+        post: post, 
+        body: html, 
+        toc: tableOfConents, 
+        page: 'blog-post', 
+        meta: pageMeta,
+        theme: checkPageTheme(req), 
+        path: breadcrumbs,
+        nonce: nonce
+    }
 
-        post.readingTime = getEstimatedReadingTime(post.body);
+    res.render('post', pageData)
 
-        const tags = post.tags;
-        const tagsWithHastags = tags.map(tag => '#' + tag);
-        post.tags = tagsWithHastags;
-
-        const pageMeta = {
-            title: `${post.title} (sinfullycoded.com)`,
-            og_title: post.title,
-            og_url: `${process.env.BASE_URL}/blog/${post.category}/${post.slug}`,
-            og_description: post.snippet,
-            og_type: 'article',
-            og_image: ''
-        };
-
-        const ogImgOpts = {
-            post_id: post._id,
-            category: post.category,
-            title: post.title,
-            tags: tagsWithHastags,
-            name: post.author.name,
-        }
-
-        fs.access(__dirname + `/public/assets/images/blog/${post._id}.png`, fs.F_OK, (err) => {
-            if (err) {
-                generateOgImage(ogImgOpts)
-                pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post._id}.png`;
-                return;
-            }
-        });
-
-        pageMeta.og_image = `${process.env.BASE_URL}/assets/images/blog/${post._id}.png`;
-
-        for (let i = 0; i < post.comments.length; i++) {
-            post.comments[i]["_createdAt"] = formatDate(post.comments[i]._createdAt);
-          }
-
-        const content = toHTML(post.body, { components: customTextComponents });
-        const nonce = res.locals.nonce;
-
-        res.render('post', { post: post, body: content, toc: toc, meta: pageMeta, path: breadcrumbs, page: 'blog', theme: checkPageTheme(req), nonce: nonce })
-    })
 }

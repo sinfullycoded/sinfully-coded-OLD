@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" mozNoMarginBoxes>
+	<head>
+		<!-- Page Meta -->
+		<title>{{page_title}}</title>
+		<meta charset="UTF-8">
+		<link rel="icon" type="image/png" href="/assets/images/favicon.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta
+		name="robots" content="noindex,noarchive,nofollow"/>
+
+		<!-- Fonts, CSS & other -->
+		<link href="//fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+		<link rel="stylesheet" type="text/css" href="/assets/css/icomoon.css"/>
+		<link rel="stylesheet" type="text/css" href="/assets/css/resume.css"/>
+	</head>
+	<body>
+		<section>
+			<h1>{{ data.name }}</h1>
+			<div class="heading-grid">
+				<div>
+					<p>{{ data.summary }}</p>
+				</div>
+				<div class="contact-info">
+					<ul>
+						{% set info = data.contactInfo %}
+						<li>
+							<span class="material-symbols-outlined">location_on</span>
+							{{ info.location }}
+						</li>
+						<li>
+							<span class="material-symbols-outlined">alternate_email</span>
+							{{ info.email }}
+						</li>
+						<li>
+							<span class="material-symbols-outlined">call</span>
+							{{ info.phone }}
+						</li>
+						<li>
+							<span class="material-symbols-outlined">language</span>
+							<a href="https://{{ info.website }}">{{ info.website }}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<hr class="decorated">
+			<main class="body-grid">
+				<div class="left">
+					<h2>Experience</h2>
+					<ul>
+						{% for experience in data.experience %}
+							<li>
+								<p class="company">
+									<img src="{{ "%s%s" | format("//t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=16&url=", experience.website) }}" alt="{{ experience.company }}">
+									<span>{{ experience.company }},
+										{{ experience.location }}
+										<em>
+											-
+											{{ experience.description }}</em>
+									</span>
+								</p>
+								{% if experience.jobs|length > 1 %}
+									<ul class="jobs multiple">
+									{% else %}
+										<ul class="jobs">
+										{% endif %}
+										{% for jobs in experience.jobs %}
+											<li class="role">
+												<span class="role-container">
+													<span>{{jobs.role}}</span>
+													<span>{{jobs.dates}}</span>
+												</span>
+												<ul class="duties">
+													{% for duties in jobs.bulletPoints %}
+														<li>{{ duties }}</li>
+													{% endfor %}
+												</ul>
+											</li>
+										{% endfor %}
+									</ul>
+								</li>
+							{% endfor %}
+						</ul>
+						<div>
+							<h2 class="m">Other Work Experience</h2>
+							<ul class="with-space">
+								{% for altexp in data.otherExperience %}
+									<li>
+										<p class="company">
+											<img src="{{ "%s%s" | format("//t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=16&url=", altexp.website) }}" alt="{{ altexp.company }}">
+											<span>{{ altexp.company }},
+												{{ altexp.location }}
+												<em>
+													-
+													{{ altexp.description }}</em>
+											</span>
+										</p>
+										<ul class="alt-exp">
+											<li>
+												<span class="role-container">
+													<span>{{altexp.job.role}}</span>
+													<span>{{altexp.job.dates}}</span>
+												</span>
+												<p class="nm">{{altexp.job.description[0]}}</p>
+											</li>
+										</ul>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="right">
+						<h2>Skills</h2>
+						<h3>Programming & Technology</h3>
+						<div class="tools">
+							{% for tech in data.skills.programming %}<span> {{ tech }} </span>{% endfor %}
+						</div>
+						<h3>Tools & Software</h3>
+						<div class="tools">
+							{% for tool in data.skills.tools %}<span> {{ tool }} </span>{% endfor %}
+						</div>
+						<h3>E-Commerce</h3>
+						<div class="tools">
+							{% for platform in data.skills.ecommerce %}<span> {{ platform }} </span>{% endfor %}
+						</div>
+						<br>
+						<h2>Projects</h2>
+						{% for project in data.projects %}
+							<p class="bold">{{ project.name }}</p>
+							<p class="nm">{{project.description}}</p>
+							<p class="nm">
+								<a href="https://{{project.link}}">{{project.link}}</a>
+							</p>
+							<div class="tags mb">
+								{% for tag in project.tags %}
+									<span>{{ tag }}</span>
+								{% endfor %}
+							</div>
+						{% endfor %}
+					</div>
+				</main>
+			</section>
+		</body>
+	</body>
+</html>
